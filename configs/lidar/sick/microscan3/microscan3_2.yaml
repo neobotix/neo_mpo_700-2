@@ -1,0 +1,49 @@
+sensor_ip: 192.168.1.31
+#Sensor IP address. Can be passed as an argument to the launch file.
+
+sensor_tcp_port: 2122
+#Sensor TCP Port. Can be passed as an argument to the launch file.
+
+host_ip: 192.168.1.10
+#Host IP address. Can be passed as an argument to the launch file.
+
+host_udp_port: 6061
+#Host UDP Port. Zero allows system chosen port.
+
+frame_id: lidar_2_link
+#The frame name of the sensor message
+
+skip: 0
+#The number of scans to skip between each measured scan. 
+#For a 25Hz laser, setting 'skip' to 0 makes it publish at 25Hz, 
+#'skip' to 1 makes it publish at 12.5Hz.
+
+angle_start: 0.0
+#Start angle of scan in radians, if both start and end angle are equal, all angels are regarded
+
+angle_end: 0.0
+#End angle of scan in radians, if both start and end angle are equal, all angels are regarded
+
+channel_enabled: true
+#If the channel should be enabled
+
+general_system_state: true
+#If the general system state should be published
+
+derived_settings: true
+#If the derived settings should be published
+
+measurement_data: true
+#If the measurement data should be published
+
+intrusion_data: true
+#If the intrusion data should be published
+
+application_io_data: true
+#If the application IO data should be published
+
+use_sick_angles: false
+#If this flag is set, the predefined angles from SICK are used. 
+#If this flag is set to false an offset of -90\Uffffffff is added to the angles 
+#so that 0\Uffffffff is at the front of the scanner.
+

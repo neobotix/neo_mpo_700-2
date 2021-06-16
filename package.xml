@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>neo_mpo_700-2</name>
+  <version>0.1.0</version>
+  <description>The neo_mpo_700 package for ROS-2</description>
+
+  <maintainer email="ros@neobotix.de">Neobotix</maintainer>
+  <license>BSD</license>
+  <url type="website">http://www.neobotix-robots.com</url>
+  <author email="padmanabhan@neobotix.de">Pradheep Padmanabhan</author> 
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
