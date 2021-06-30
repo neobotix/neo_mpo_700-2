@@ -11,9 +11,10 @@ neo_relayboard_node:
         ################################################
         #            device configuration              #
         ################################################
-        port: /dev/ttyUSB0
+        port: /dev/neo-relayboard
         request_rate: 50.0
         motor_delay: 0.0
+        Publish_joint_states: false
 
         #################################################
         #                 battery                       #

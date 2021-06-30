@@ -36,7 +36,7 @@ neo_omnidrive_node:
       enc_ticks_per_rev: 10000
       home_angle: 180.0
       home_dig_in: 9
-      enc_home_offset: 5433
+      enc_home_offset: 4509
 
     drive1:
       can_id: 4
@@ -54,7 +54,7 @@ neo_omnidrive_node:
       enc_ticks_per_rev: 10000
       home_angle: 180.0
       home_dig_in: 9
-      enc_home_offset: -6296
+      enc_home_offset: -4278
 
     drive2:
       can_id: 6
@@ -72,7 +72,7 @@ neo_omnidrive_node:
       enc_ticks_per_rev: 10000
       home_angle: 0.0
       home_dig_in: 9
-      enc_home_offset: 5641
+      enc_home_offset: 4705
 
     drive3:
       can_id: 8
@@ -90,4 +90,4 @@ neo_omnidrive_node:
       enc_ticks_per_rev: 10000
       home_angle: 0.0
       home_dig_in: 9
-      enc_home_offset: -6186
+      enc_home_offset: -4240
