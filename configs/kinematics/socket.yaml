@@ -4,9 +4,12 @@ neo_omnidrive_socketcan_node:
     control_rate: 100.0
     wheel_radius: 0.088
     wheel_lever_arm: 0.045
-    zero_vel_threshold: 0.005
+    zero_vel_threshold: 0.001
+    request_status_divider: 10
+    heartbeat_divider: 5
     small_vel_threshold: 0.02
     steer_hysteresis: 30
+    steer_hysteresis_dynamic: 5
     steer_gain: 10.0
     steer_lookahead: 0.06
     steer_low_pass: 0.5
@@ -19,12 +22,16 @@ neo_omnidrive_socketcan_node:
     trajectory_timeout: 0.1
     home_vel: -1.0
     drive_low_pass: 0.5
+    auto_home: true
+    motor_group_id: 30
+    steer_reset_button: 1
+    measure_torque: false
 
     drive0:
       can_id: 2
       joint_name: mpo_700_wheel_front_left_joint
       rot_sign: -1
-      gear_ratio: 30.0
+      gear_ratio: 30
       enc_ticks_per_rev: 10000
     steer0:
       can_id: 1
@@ -32,17 +39,17 @@ neo_omnidrive_socketcan_node:
       center_pos_x: 0.240
       center_pos_y: 0.190
       rot_sign: 1
-      gear_ratio: 19.0
+      gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 180.0
+      home_angle: 180
       home_dig_in: 9
-      enc_home_offset: 4509
+      enc_home_offset: 4663
 
     drive1:
       can_id: 4
       joint_name: mpo_700_wheel_back_left_joint
       rot_sign: 1
-      gear_ratio: 30.0
+      gear_ratio: 30
       enc_ticks_per_rev: 10000
     steer1:
       can_id: 3
@@ -50,17 +57,17 @@ neo_omnidrive_socketcan_node:
       center_pos_x: -0.240
       center_pos_y: 0.190
       rot_sign: -1
-      gear_ratio: 19.0
+      gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 180.0
+      home_angle: 180
       home_dig_in: 9
-      enc_home_offset: -4278
+      enc_home_offset: -5429
 
     drive2:
       can_id: 6
       joint_name: mpo_700_wheel_back_right_joint
       rot_sign: -1
-      gear_ratio: 30.0
+      gear_ratio: 30
       enc_ticks_per_rev: 10000
     steer2:
       can_id: 5
@@ -68,17 +75,17 @@ neo_omnidrive_socketcan_node:
       center_pos_x: -0.240
       center_pos_y: -0.190
       rot_sign: 1
-      gear_ratio: 19.0
+      gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 0.0
+      home_angle: 0
       home_dig_in: 9
-      enc_home_offset: 4705
+      enc_home_offset: 4845
 
     drive3:
       can_id: 8
       joint_name: mpo_700_wheel_front_right_joint
       rot_sign: 1
-      gear_ratio: 30.0
+      gear_ratio: 30
       enc_ticks_per_rev: 10000
     steer3:
       can_id: 7
@@ -86,8 +93,8 @@ neo_omnidrive_socketcan_node:
       center_pos_x: 0.240
       center_pos_y: -0.190
       rot_sign: -1
-      gear_ratio: 19.0
+      gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 0.0
+      home_angle: 0
       home_dig_in: 9
-      enc_home_offset: -4240
+      enc_home_offset: -5363
