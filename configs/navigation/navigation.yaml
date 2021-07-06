@@ -104,10 +104,10 @@ controller_server:
       acc_lim_y : 0.25
 
       # The rotational acceleration limit of the robot in radians/sec^2
-      acc_lim_theta : 1.0
+      acc_lim_theta : 0.8
 
       # The maximum x velocity for the robot in m/s.
-      max_vel_x : 0.6
+      max_vel_x : 0.8
 
       # The minimum x velocity for the robot in m/s, negative for backwards motion.
       min_vel_x : -0.2
@@ -131,13 +131,13 @@ controller_server:
       min_trans_vel : 0.1
 
       # The tolerance in radians for the controller in yaw/rotation when achieving its goal
-      yaw_goal_tolerance : 0.005
+      yaw_goal_tolerance : 0.01
 
       # The tolerance in meters for the controller in the x & y distance when achieving a goal
-      xy_goal_tolerance : 0.01
+      xy_goal_tolerance : 0.02
 
       # How long to fine tune for goal position after reaching tolerance limits [s]
-      goal_tune_time : 2.0
+      goal_tune_time : 3.0
 
       # How far to predict control pose into the future based on latest odometry [s]
       lookahead_time : 0.4
@@ -188,7 +188,7 @@ controller_server:
       max_backup_dist : 0.0
 
       # Minimal distance for stopping [m]
-      min_stop_dist : 0.6
+      min_stop_dist : 0.3
 
       # If robot has differential drive, holonomic otherwise
       differential_drive : false
