@@ -7,10 +7,10 @@
   <!-- SENSORS -->
   <!-- Sick S300 - Comment/Uncomment if required -->
   <!-- Microscan - Comment/Uncomment if required -->
-  <!-- <xacro:include filename="$(find neo_mpo_700)/robot_model/mpo_700/xacros/micro_scan.xacro" />  -->
-  <!--<xacro:include filename="$(find neo_mpo_700)/robot_model/mpo_700/xacros/imu.xacro" />
+  <!-- <xacro:include filename="$(find neo_mpo_700-2)/robot_model/mpo_700/xacros/micro_scan.xacro" />  -->
+  <!--<xacro:include filename="$(find neo_mpo_700-2)/robot_model/mpo_700/xacros/imu.xacro" />
 
-  <xacro:include filename="$(find neo_mpo_700)/robot_model/mpo_700/xacros/ultrasonic.xacro" /> -->
+  <xacro:include filename="$(find neo_mpo_700-2)/robot_model/mpo_700/xacros/ultrasonic.xacro" /> -->
   <gazebo reference="base_link">
     <gravity>true</gravity>
     <self_collide>false</self_collide>
@@ -171,13 +171,13 @@
     <visual>
       <origin rpy="0 0 -1.571" xyz="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 -1.571" xyz="0. 0. 0."/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-BODY.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -198,13 +198,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -224,13 +224,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -250,13 +250,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -276,13 +276,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0.10"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -303,13 +303,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -330,13 +330,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -357,13 +357,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -384,13 +384,13 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/MPO-700-WHEEL.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -410,13 +410,13 @@
     <visual>
       <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -435,13 +435,13 @@
     <visual>
       <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
       <geometry>
-        <mesh filename="package://neo_mpo_700/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
