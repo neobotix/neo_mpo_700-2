@@ -2,7 +2,7 @@ neo_omnidrive_socketcan_node:
   ros__parameters:
     num_wheels: 4
     control_rate: 100.0
-    wheel_radius: 0.088
+    wheel_radius: 0.090
     wheel_lever_arm: 0.045
     zero_vel_threshold: 0.001
     request_status_divider: 10
@@ -41,7 +41,7 @@ neo_omnidrive_socketcan_node:
       rot_sign: 1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 180
+      home_angle: 180.0
       home_dig_in: 9
       enc_home_offset: 4663
 
@@ -59,7 +59,7 @@ neo_omnidrive_socketcan_node:
       rot_sign: -1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 180
+      home_angle: 180.0
       home_dig_in: 9
       enc_home_offset: -5429
 
@@ -77,7 +77,7 @@ neo_omnidrive_socketcan_node:
       rot_sign: 1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 0
+      home_angle: 0.0
       home_dig_in: 9
       enc_home_offset: 4845
 
@@ -95,6 +95,6 @@ neo_omnidrive_socketcan_node:
       rot_sign: -1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
-      home_angle: 0
+      home_angle: 0.0
       home_dig_in: 9
       enc_home_offset: -5363
