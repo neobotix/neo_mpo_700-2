@@ -7,3 +7,4 @@ lidar_2/neo_sick_s300_node:
     scan_delay: 0.045
     frame_id: lidar_2_link
     scan_intervals: [[-2.4, 2.4]] #[rad] these intervals are included to the scan +-95°
+
