@@ -4,7 +4,7 @@ neo_omnidrive_node:
     control_rate: 100.0
     wheel_radius: 0.090
     wheel_lever_arm: 0.045
-    zero_vel_threshold: 0.005
+    zero_vel_threshold: 0.001
     small_vel_threshold: 0.02
     steer_hysteresis: 30.0
     steer_gain: 10.0
