@@ -15,6 +15,7 @@ neo_relayboard_node:
         request_rate: 50.0
         motor_delay: 0.0
         Publish_joint_states: false
+        trajectory_timeout: 1.0
 
         #################################################
         #                 battery                       #
