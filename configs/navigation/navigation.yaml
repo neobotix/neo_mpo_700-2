@@ -120,7 +120,7 @@ controller_server:
       max_vel_y : 0.5
       min_vel_y : -0.5
       max_rot_vel : 0.8
-      min_rot_vel : -0.8
+      min_rot_vel : 0.1
       max_trans_vel : 0.8
       min_trans_vel : 0.1
       yaw_goal_tolerance : 0.005
@@ -139,7 +139,7 @@ controller_server:
       cost_yaw_gain : 2.0
       low_pass_gain : 0.2
       max_cost : 0.95
-      max_curve_vel : 0.4
+      max_curve_vel : 0.3
       max_goal_dist : 0.5
       max_backup_dist : 0.0
       min_stop_dist : 0.2
@@ -155,14 +155,14 @@ local_costmap:
       update_frequency: 10.0
       publish_frequency: 1.0
       global_frame: odom
-      robot_base_frame: base_footprint
+      robot_base_frame: base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
       rolling_window: true
       width: 5
       height: 5
-      resolution: 0.02
+      resolution: 0.03
       # robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer", "obstacle_layer"]
       obstacle_layer:
@@ -231,7 +231,7 @@ global_costmap:
       update_frequency: 0.4
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: base_footprint
+      robot_base_frame: base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
@@ -256,6 +256,7 @@ global_costmap:
           marking: True
           data_type: "LaserScan"
       static_layer:
+        enabled: True
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       voxel_layer:
