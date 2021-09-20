@@ -17,4 +17,4 @@ neo_teleop2_node:
     deadman_button: 5
 
     # timeout after which to stop robot if no command is received [s]
-    joy_timeout: 1
+    joy_timeout: 1.0
