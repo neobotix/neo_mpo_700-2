@@ -57,7 +57,7 @@ neo_localization:
     # if to broadcast map frame
     broadcast_tf: true
     # Scan topic
-    scan_topic: scan
+    scan_topic: "lidar_1/scan_filtered"
     # Initial Pose topic
     initialpose: initialpose
     # Map Tile topic
