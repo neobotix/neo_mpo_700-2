@@ -15,7 +15,7 @@ This makes the MPO-700 a premium alternative for applications that require omnid
 
 # Documentation
 
-coming soon ....
+Documentations for both the Hardware and ROS can be found at https://neobotix-docs.de/
 
 # Contact information
 
