@@ -12,11 +12,12 @@ from pathlib import Path
 
 def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
+    robot_namespace = "robot1"
 
     urdf = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'robot_model/mpo_700', 'mpo_700.urdf')
 
     with open(urdf, 'r') as infp:  
-        robot_desc = infp.read() # Dummy to use parameter instead of using argument=[urdf] in Node. Reference page: https://github.com/ros2/demos/pull/426/commits/a35a25732159e4c8b5655755ce31ec4c3e6e7975
+        robot_desc = infp.read()
 
     rsp_params = {'robot_description': robot_desc}
 
@@ -25,29 +26,43 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
+        namespace=robot_namespace,
         parameters=[rsp_params])
 
     relayboard = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(neo_mpo_700, 'configs/relayboard_v2', 'relayboard_v2.launch.py')
-            )
+            ),
+            launch_arguments={
+                'namespace': robot_namespace
+            }.items()
         )
 
     kinematics = IncludeLaunchDescription(
              PythonLaunchDescriptionSource(
                  os.path.join(neo_mpo_700, 'configs/kinematics', 'kinematics.launch.py')
-             )
+             ),
+             launch_arguments={
+                'namespace': robot_namespace
+            }.items()
          )
+
     teleop = IncludeLaunchDescription(
              PythonLaunchDescriptionSource(
                  os.path.join(neo_mpo_700, 'configs/teleop', 'teleop.launch.py')
-             )
+             ),
+             launch_arguments={
+                'namespace': robot_namespace
+            }.items()
          )
 
     laser = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(neo_mpo_700, 'configs/lidar/sick/s300', 'sick_s300.launch.py')
-            )
+            ),
+            launch_arguments={
+                'namespace': robot_namespace
+            }.items()
         )
 
     relay_topic = Node(
