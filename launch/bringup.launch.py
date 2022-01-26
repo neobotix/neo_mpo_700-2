@@ -12,7 +12,7 @@ from pathlib import Path
 
 def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
-    robot_namespace = "robot1"
+    robot_namespace = ""
 
     urdf = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'robot_model/mpo_700', 'mpo_700.urdf')
 
@@ -70,7 +70,7 @@ def generate_launch_description():
             executable = 'relay',
             name='relay',
             output='screen',
-            parameters=[{'input_topic': "/lidar_1/scan_filtered",'output_topic': "/scan"},
-                        {'input_topic': "/lidar_2/scan_filtered",'output_topic': "/scan"}])
+            parameters=[{'input_topic': robot_namespace + "/lidar_1/scan_filtered",'output_topic': robot_namespace + "/scan"},
+                        {'input_topic': robot_namespace + "/lidar_2/scan_filtered",'output_topic': robot_namespace + "/scan"}])
 
     return LaunchDescription([relayboard, start_robot_state_publisher_cmd, laser, kinematics, teleop, relay_topic])
