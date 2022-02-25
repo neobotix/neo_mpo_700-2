@@ -21,15 +21,19 @@ def generate_launch_description():
     with open(urdf, 'r') as infp:  
         robot_desc = infp.read()
 
-    rsp_params = {'robot_description': robot_desc}
-
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
         namespace=robot_namespace,
-        parameters=[rsp_params])
+        parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
+		arguments=[urdf])
+	
+	# Launch can be set just once, does not matter if you set it for other launch files. 
+	# The arguments should certainly have different meaning if there is a bigger launch file
+	# Leaving this comment here for a clarity thereof and thereforth. 
+	# https://answers.ros.org/question/306935/ros2-include-a-launch-file-from-a-launch-file/
 
     relayboard = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -43,28 +47,19 @@ def generate_launch_description():
     kinematics = IncludeLaunchDescription(
              PythonLaunchDescriptionSource(
                  os.path.join(neo_mpo_700, 'configs/kinematics', 'kinematics.launch.py')
-             ),
-             launch_arguments={
-                'namespace': robot_namespace
-            }.items()
+             )
          )
 
     teleop = IncludeLaunchDescription(
              PythonLaunchDescriptionSource(
                  os.path.join(neo_mpo_700, 'configs/teleop', 'teleop.launch.py')
-             ),
-             launch_arguments={
-                'namespace': robot_namespace
-            }.items()
+             )
          )
 
     laser = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(neo_mpo_700, 'configs/lidar/sick/s300', 'sick_s300.launch.py')
-            ),
-            launch_arguments={
-                'namespace': robot_namespace
-            }.items()
+            )
         )
 
     relay_topic = Node(
