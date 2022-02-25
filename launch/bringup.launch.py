@@ -9,10 +9,12 @@ from launch.substitutions import ThisLaunchFileDir, LaunchConfiguration
 from launch_ros.actions import Node
 import os
 from pathlib import Path
+from launch.launch_context import LaunchContext
 
 def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
-    robot_namespace = ""
+    robot_namespace = LaunchConfiguration('robot_namespace', default='')
+    context = LaunchContext()
 
     urdf = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'robot_model/mpo_700', 'mpo_700.urdf')
 
@@ -69,8 +71,9 @@ def generate_launch_description():
             package='topic_tools',
             executable = 'relay',
             name='relay',
+			namespace =  robot_namespace,
             output='screen',
-            parameters=[{'input_topic': robot_namespace + "/lidar_1/scan_filtered",'output_topic': robot_namespace + "/scan"},
-                        {'input_topic': robot_namespace + "/lidar_2/scan_filtered",'output_topic': robot_namespace + "/scan"}])
+            parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"},
+                        {'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
     return LaunchDescription([relayboard, start_robot_state_publisher_cmd, laser, kinematics, teleop, relay_topic])
