@@ -17,6 +17,7 @@ def generate_launch_description():
     head_robot = LaunchConfiguration('head_robot', default='False')
     use_amcl = LaunchConfiguration('use_amcl', default='False')
     use_sim_time = LaunchConfiguration('use_sim_time', default='False')
+    autostart = LaunchConfiguration('autostart', default='true')
     namespace = LaunchConfiguration('namespace', default='')
     map_dir = LaunchConfiguration(
         'map',
@@ -80,7 +81,7 @@ def generate_launch_description():
             executable='map_server',
             name='map_server',
             output='screen',
-            parameters=[{'map_dir': map_dir},
+            parameters=[{'yaml_filename': map_dir},
                         {'use_sim_time': use_sim_time}],
             ),
 
@@ -90,7 +91,8 @@ def generate_launch_description():
             name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
-                        {'node_names': ['nav2_map_server']}])
+						{'autostart': autostart},
+                        {'node_names': ['map_server']}])
         ]
     )
 
