@@ -24,7 +24,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('neo_mpo_700-2'),
             'configs/navigation/maps',
-            'test.yaml'))
+            'test1.yaml'))
 
     param_file_name = 'navigation.yaml'
     param_dir = LaunchConfiguration(
@@ -82,7 +82,7 @@ def generate_launch_description():
             name='map_server',
             output='screen',
             parameters=[{'yaml_filename': map_dir},
-                        {'use_sim_time': use_sim_time}],
+                        {'use_sim_time': use_sim_time}]
             ),
 
         Node(
