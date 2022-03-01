@@ -1,4 +1,4 @@
-neo_localization:
+neo_localization2_node:
   ros__parameters:
     base_frame: "base_footprint"
     odom_frame: "odom"
@@ -56,7 +56,7 @@ neo_localization:
     transform_timeout: 0.2
     # if to broadcast map frame
     broadcast_tf: true
-    # Scan topic
+    # Scan topic - feel free to use topic /scan if you have 2 laser scanners
     scan_topic: "lidar_1/scan_filtered"
     # Initial Pose topic
     initialpose: initialpose
