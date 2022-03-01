@@ -50,12 +50,18 @@ def generate_launch_description():
             )
         )
 
-    relay_topic = Node(
+    relay_topic_1 = Node(
             package='topic_tools',
             executable = 'relay',
             name='relay',
             output='screen',
-            parameters=[{'input_topic': "/lidar_1/scan_filtered",'output_topic': "/scan"},
-                        {'input_topic': "/lidar_2/scan_filtered",'output_topic': "/scan"}])
+            parameters=[{'input_topic': "/lidar_1/scan_filtered",'output_topic': "/scan"}])
 
-    return LaunchDescription([relayboard, start_robot_state_publisher_cmd, laser, kinematics, teleop, relay_topic])
+    relay_topic_2 = Node(
+            package='topic_tools',
+            executable = 'relay',
+            name='relay',
+            output='screen',
+            parameters=[{'input_topic': "/lidar_2/scan_filtered",'output_topic': "/scan"}])
+
+    return LaunchDescription([relayboard, start_robot_state_publisher_cmd, laser, kinematics, teleop, relay_topic_1, relay_topic_2])
