@@ -32,7 +32,7 @@ neo_relayboard_node:
         battery:
           serial_number: neobattery1
           location: slot1
-          design_capacity: 100
+          design_capacity: 100.0
           chemistry: 1
 
 
