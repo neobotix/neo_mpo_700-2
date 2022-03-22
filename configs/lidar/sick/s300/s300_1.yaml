@@ -1,4 +1,4 @@
-lidar_1/neo_sick_s300_node:
+/**:
   ros__parameters:
     port: /dev/neo-s300-1
     baud: 500000

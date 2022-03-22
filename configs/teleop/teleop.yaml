@@ -1,4 +1,4 @@
-neo_teleop2_node:
+/**:
   ros__parameters:
     # joystick axis mapping
     axis_linear_x: 1
