@@ -1,4 +1,4 @@
-neo_omnidrive_node:
+/**:
   ros__parameters:
     num_wheels: 4
     control_rate: 100.0
