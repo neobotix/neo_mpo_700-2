@@ -152,8 +152,8 @@ bt_navigator:
   ros__parameters:
     use_sim_time: False
     global_frame: map
-    robot_base_frame: mpo_700base_link
-    odom_topic: /mpo_700/odom
+    robot_base_frame: mpo_7000base_link
+    odom_topic: /mpo_7000/odom
     bt_loop_duration: 10
     default_server_timeout: 20
     enable_groot_monitoring: True
@@ -248,9 +248,9 @@ controller_server:
       max_backup_dist : 0.0
       min_stop_dist : 0.2
       differential_drive : false
-      local_frame: mpo_700odom
-      base_frame: mpo_700base_link
-      odom_topic: /mpo_700/odom
+      local_frame: mpo_7000odom
+      base_frame: mpo_7000base_link
+      odom_topic: /mpo_7000/odom
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -261,8 +261,8 @@ local_costmap:
     ros__parameters:
       update_frequency: 10.0
       publish_frequency: 1.0
-      global_frame: mpo_700odom
-      robot_base_frame: mpo_700base_link
+      global_frame: mpo_7000odom
+      robot_base_frame: mpo_7000base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
@@ -281,13 +281,13 @@ local_costmap:
         enabled: True
         observation_sources: scan scan1
         scan:
-          topic: /mpo_700/lidar_1/scan_filtered
+          topic: /mpo_7000/lidar_1/scan_filtered
           max_obstacle_height: 2.0
           clearing: True
           marking: True
           data_type: "LaserScan"
         scan1:
-          topic: /mpo_700/lidar_2/scan_filtered
+          topic: /mpo_7000/lidar_2/scan_filtered
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -306,7 +306,7 @@ global_costmap:
       update_frequency: 0.4
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: mpo_700base_link
+      robot_base_frame: mpo_7000base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
@@ -320,13 +320,13 @@ global_costmap:
         enabled: True
         observation_sources: scan scan1
         scan:
-          topic: /mpo_700/lidar_1/scan_filtered
+          topic: /mpo_7000/lidar_1/scan_filtered
           max_obstacle_height: 2.0
           clearing: True
           marking: True
           data_type: "LaserScan"
         scan1:
-          topic: /mpo_700/lidar_2/scan_filtered
+          topic: /mpo_7000/lidar_2/scan_filtered
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -387,8 +387,8 @@ recoveries_server:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
-    global_frame: mpo_700odom
-    robot_base_frame: mpo_700base_link
+    global_frame: mpo_7000odom
+    robot_base_frame: mpo_7000base_link
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0
