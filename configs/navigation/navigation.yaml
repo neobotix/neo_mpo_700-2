@@ -125,8 +125,8 @@ bt_navigator:
     robot_base_frame: base_link
     odom_topic: /odom
     bt_loop_duration: 10
-    default_nav_to_pose_bt_xml: "../behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
-    default_nav_through_poses_bt_xml: "../behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
+    # default_nav_to_pose_bt_xml: "/home/USER/mpo_700_workspace/src/neo_mpo_700-2/configs/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    # default_nav_through_poses_bt_xml: "/home/USER/mpo_700_workspace/src/neo_mpo_700-2/configs/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
     default_server_timeout: 20
     enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
@@ -217,6 +217,7 @@ controller_server:
       max_backup_dist : 0.0
       min_stop_dist : 0.2
       differential_drive : false
+      allow_reversing: false
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -357,7 +358,7 @@ recoveries_server:
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
+    max_rotational_vel: 0.6
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
 
