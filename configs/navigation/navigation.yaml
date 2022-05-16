@@ -173,12 +173,16 @@ controller_server:
     # controller server parameters (see Controller Server for more info)
     controller_plugins: ["FollowPath"]
     controller_frequency: 50.0
+    failure_tolerance: 0.3
+    odom_topic: "odom"
     controller_plugin_types: ["neo_local_planner::NeoLocalPlanner"]
+    goal_checker_plugins: ["general_goal_checker"]
+    progress_checker_plugin: "progress_checker"
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
       movement_time_allowance: 100.0
-    goal_checker:
+    general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.05
       yaw_goal_tolerance: 0.05
