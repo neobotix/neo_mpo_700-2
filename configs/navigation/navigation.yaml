@@ -261,12 +261,16 @@ local_costmap:
         scan:
           topic: /lidar_1/scan_filtered
           max_obstacle_height: 2.0
+          raytrace_max_range: 8.0
+          obstacle_max_range: 5.0
           clearing: True
           marking: True
           data_type: "LaserScan"
         scan1:
           topic: /lidar_2/scan_filtered
           max_obstacle_height: 2.0
+          raytrace_max_range: 8.0
+          obstacle_max_range: 5.0
           clearing: True
           marking: True
           data_type: "LaserScan"
@@ -293,12 +297,16 @@ global_costmap:
         scan:
           topic: /lidar_1/scan_filtered
           max_obstacle_height: 2.0
+          raytrace_max_range: 8.0
+          obstacle_max_range: 5.0
           clearing: True
           marking: True
           data_type: "LaserScan"
         scan1:
           topic: /lidar_2/scan_filtered
           max_obstacle_height: 2.0
+          raytrace_max_range: 8.0
+          obstacle_max_range: 5.0
           clearing: True
           marking: True
           data_type: "LaserScan"
