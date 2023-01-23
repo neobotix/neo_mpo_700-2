@@ -24,7 +24,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('neo_mpo_700-2'),
             'configs/navigation/maps',
-            'test1.yaml'))
+            'new_better2.yaml'))
 
     param_file_name = 'navigation.yaml'
     param_dir = LaunchConfiguration(
@@ -41,7 +41,6 @@ def generate_launch_description():
     # Start navigation and push namespace if and only if the multi robot scenario is set to true. 
     start_navigation = GroupAction([
         PushRosNamespace(
-            condition=IfCondition(use_multi_robots),
             namespace=namespace),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_neo.launch.py']),
@@ -91,7 +90,7 @@ def generate_launch_description():
             name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
-						{'autostart': autostart},
+                        {'autostart': autostart},
                         {'node_names': ['map_server']}])
         ]
     )

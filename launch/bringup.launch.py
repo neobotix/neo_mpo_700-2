@@ -15,7 +15,7 @@ def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
     robot_namespace = LaunchConfiguration('robot_namespace', default='')
     context = LaunchContext()
-
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
     urdf = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'robot_model/mpo_700', 'mpo_700.urdf')
 
     with open(urdf, 'r') as infp:  
@@ -26,14 +26,15 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        namespace=robot_namespace,
-        parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
-		arguments=[urdf])
-	
-	# Launch can be set just once, does not matter if you set it for other launch files. 
-	# The arguments should certainly have different meaning if there is a bigger launch file
-	# Leaving this comment here for a clarity thereof and thereforth. 
-	# https://answers.ros.org/question/306935/ros2-include-a-launch-file-from-a-launch-file/
+        namespace="mpo_7000",
+        remappings=remappings,
+        parameters=[{'robot_description': robot_desc}],
+        arguments=[urdf])
+    
+    # Launch can be set just once, does not matter if you set it for other launch files. 
+    # The arguments should certainly have different meaning if there is a bigger launch file
+    # Leaving this comment here for a clarity thereof and thereforth. 
+    # https://answers.ros.org/question/306935/ros2-include-a-launch-file-from-a-launch-file/
 
     relayboard = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -66,7 +67,7 @@ def generate_launch_description():
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
@@ -74,7 +75,7 @@ def generate_launch_description():
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
