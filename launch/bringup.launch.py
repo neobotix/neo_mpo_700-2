@@ -11,6 +11,8 @@ import os
 from pathlib import Path
 from launch.launch_context import LaunchContext
 from launch.conditions import IfCondition
+from launch_ros.actions import ComposableNodeContainer
+from launch_ros.descriptions import ComposableNode
 
 def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
@@ -34,10 +36,21 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
 		arguments=[urdf])
 
-    start_imu_driver = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([phidgets_drivers_file_dir, '/spatial-launch.py']),
-            condition=IfCondition(imu_enable)
-        )
+    # Note: imu_link needs to be manually uncommented in the URDF
+    start_imu_driver = ComposableNodeContainer(
+            name='phidget_container',
+            namespace='',
+            package='rclcpp_components',
+            executable='component_container',
+            composable_node_descriptions=[
+                ComposableNode(
+                    package='phidgets_spatial',
+                    plugin='phidgets::SpatialRosI',
+                    name='phidgets_spatial'),
+            ],
+            output='both',
+            parameters=[{'frame_id': robot_namespace.perform(context) + "imu_link"}],
+    )
 	
 	# Launch can be set just once, does not matter if you set it for other launch files. 
 	# The arguments should certainly have different meaning if there is a bigger launch file
