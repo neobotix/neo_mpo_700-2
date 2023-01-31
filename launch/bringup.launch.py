@@ -49,6 +49,7 @@ def generate_launch_description():
                     name='phidgets_spatial'),
             ],
             output='both',
+            condition=IfCondition(imu_enable),
             parameters=[{'frame_id': robot_namespace.perform(context) + "imu_link"}],
     )
 	
