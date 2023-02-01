@@ -10,6 +10,7 @@
   <author email="padmanabhan@neobotix.de">Pradheep Padmanabhan</author> 
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>phidgets_spatial</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
