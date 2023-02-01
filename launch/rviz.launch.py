@@ -13,9 +13,9 @@ from pathlib import Path
 
 def generate_launch_description():
     rviz_config_dir = os.path.join(
-        get_package_share_directory('nav2_bringup'),
-        'rviz',
-        'nav2_default_view.rviz')
+        get_package_share_directory('neo_mpo_700-2'),
+        'configs/rviz',
+        'test_rviz.rviz')
 
     rviz =   Node(
             package='rviz2',
