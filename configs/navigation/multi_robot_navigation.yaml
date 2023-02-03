@@ -356,8 +356,8 @@ planner_server:
 
 behavior_server:
   ros__parameters:
-    costmap_topic: local_costmap/costmap_raw
-    footprint_topic: local_costmap/published_footprint
+    costmap_topic: /mpo_7000/local_costmap/costmap_raw
+    footprint_topic: /mpo_7000/local_costmap/published_footprint
     cycle_frequency: 10.0
     behavior_plugins: ["spin", "backup", "wait"]
     spin:
