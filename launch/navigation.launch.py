@@ -24,7 +24,7 @@ def generate_launch_description():
         default=os.path.join(
             get_package_share_directory('neo_mpo_700-2'),
             'configs/navigation/maps',
-            'new_better2.yaml'))
+            'test1.yaml'))
 
     param_file_name = 'navigation.yaml'
     param_dir = LaunchConfiguration(
@@ -68,13 +68,6 @@ def generate_launch_description():
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'params_file': param_dir}.items()),
-    ])
-
-    # Start map_server if this robot is assigned as the head robot and if there is no multi-robot,
-    # neo_bringup handles the map_server
-    start_map_server = GroupAction(
-        condition=IfCondition(head_robot),
-        actions=[
         Node(
             package='nav2_map_server',
             executable='map_server',
@@ -96,6 +89,5 @@ def generate_launch_description():
     )
 
     ld.add_action(start_navigation)
-    ld.add_action(start_map_server)
 
     return ld

@@ -152,7 +152,7 @@ bt_navigator:
   ros__parameters:
     use_sim_time: False
     global_frame: map
-    robot_base_frame: mpo_7000base_link
+    robot_base_frame: base_link
     odom_topic: /mpo_7000/odom
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -248,8 +248,8 @@ controller_server:
       max_backup_dist : 0.0
       min_stop_dist : 0.2
       differential_drive : false
-      local_frame: mpo_7000odom
-      base_frame: mpo_7000base_link
+      local_frame: odom
+      base_frame: base_link
       odom_topic: /mpo_7000/odom
 
 controller_server_rclcpp_node:
@@ -261,8 +261,9 @@ local_costmap:
     ros__parameters:
       update_frequency: 10.0
       publish_frequency: 1.0
-      global_frame: mpo_7000odom
-      robot_base_frame: mpo_7000base_link
+      map_topic: /mpo_7000/map
+      global_frame: odom
+      robot_base_frame: base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
@@ -306,11 +307,11 @@ global_costmap:
       update_frequency: 0.4
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: mpo_7000base_link
+      robot_base_frame: base_link
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
-      map_topic: /map
+      map_topic: /mpo_7000/map
       # robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
@@ -377,8 +378,8 @@ planner_server_rclcpp_node:
 
 recoveries_server:
   ros__parameters:
-    costmap_topic: local_costmap/costmap_raw
-    footprint_topic: local_costmap/published_footprint
+    costmap_topic: /mpo_7000/local_costmap/costmap_raw
+    footprint_topic: /mpo_7000/local_costmap/published_footprint
     cycle_frequency: 10.0
     recovery_plugins: ["spin", "backup", "wait"]
     spin:
@@ -387,8 +388,8 @@ recoveries_server:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
-    global_frame: mpo_7000odom
-    robot_base_frame: mpo_7000base_link
+    global_frame: odom
+    robot_base_frame: base_link
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0
