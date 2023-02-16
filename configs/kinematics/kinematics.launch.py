@@ -7,7 +7,7 @@ import launch_ros.actions
 
 def generate_launch_description():
     robot_namespace = launch.substitutions.LaunchConfiguration('namespace', default="")
-
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
     config = os.path.join(get_package_share_directory('neo_mpo_700-2'),'configs/kinematics/','kinematics.yaml')
     config1 = os.path.join(get_package_share_directory('neo_mpo_700-2'),'configs/kinematics/','socket.yaml')
 
@@ -17,6 +17,7 @@ def generate_launch_description():
             executable='neo_omnidrive_node', 
             output='screen',
             namespace = robot_namespace,
+            remappings=remappings,
             name='neo_omnidrive_node', 
             parameters = [config]), 
 
