@@ -74,7 +74,8 @@ def generate_launch_description():
             name='map_server',
             output='screen',
             parameters=[{'yaml_filename': map_dir},
-                        {'use_sim_time': use_sim_time}]
+                        {'use_sim_time': use_sim_time},
+                        {'frame_id':"mpo_7000map"}]
             ),
 
         Node(

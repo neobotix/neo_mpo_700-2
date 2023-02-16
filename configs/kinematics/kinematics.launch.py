@@ -17,7 +17,6 @@ def generate_launch_description():
             executable='neo_omnidrive_node', 
             output='screen',
             namespace = robot_namespace,
-            remappings=remappings,
             name='neo_omnidrive_node', 
             parameters = [config]), 
 

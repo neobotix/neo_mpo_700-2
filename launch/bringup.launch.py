@@ -27,8 +27,7 @@ def generate_launch_description():
         name='robot_state_publisher',
         output='screen',
         namespace="mpo_7000",
-        remappings=remappings,
-        parameters=[{'robot_description': robot_desc}],
+        parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
         arguments=[urdf])
     
     # Launch can be set just once, does not matter if you set it for other launch files. 
