@@ -1,0 +1,37 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    linear_axis_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+linear_axis_controller:
+  ros__parameters:
+    joints:
+      - linear_axis_joint2
+
+    command_interfaces:
+      - velocity
+
+    state_interfaces:
+      - position
+      - velocity
+
+    state_publish_rate: 100.0 # Defaults to 50
+    action_monitor_rate: 100.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    constraints:
+      stopped_velocity_tolerance: 0.006 # Defaults to 0.01
+      linear_axis_joint2: {goal: 0.005 }
+
+    gains:
+      linear_axis_joint2:
+        p: 0.7
+        i: 0.0
+        d: 0.0
+        i_clamp: 0.0
+        ff_velocity_scale: 1.0

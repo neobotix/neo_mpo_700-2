@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import ThisLaunchFileDir, LaunchConfiguration
+from launch.substitutions import ThisLaunchFileDir, LaunchConfiguration, Command
 from launch_ros.actions import Node
 import os
 from pathlib import Path
@@ -13,12 +13,14 @@ from launch.launch_context import LaunchContext
 from launch.conditions import IfCondition
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
+import xacro
 
 def generate_launch_description():
     neo_mpo_700 = get_package_share_directory('neo_mpo_700-2')
     robot_namespace = LaunchConfiguration('robot_namespace', default='')
     imu_enable = LaunchConfiguration('imu_enable', default='False')
     context = LaunchContext()
+    robot_controller = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'configs/controller', 'controller.yaml')
 
     urdf = os.path.join(get_package_share_directory('neo_mpo_700-2'), 'robot_model/mpo_700', 'mpo_700.urdf')
 
@@ -101,11 +103,38 @@ def generate_launch_description():
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
-    return LaunchDescription([relayboard,
-        start_imu_driver,
+    robot_description = {"robot_description": Command([
+            "xacro", " ", urdf])}
+
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        output="both",
+        parameters=[robot_description, robot_controller],
+    )
+
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+
+    initial_joint_controller_spawner_stopped = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
+    )
+
+    return LaunchDescription([
+        # relayboard,
+        # start_imu_driver,
         start_robot_state_publisher_cmd,
-        laser,
-        kinematics,
-        teleop,
-        relay_topic_lidar1,
-        relay_topic_lidar2])
+        control_node,
+        joint_state_broadcaster_spawner,
+        initial_joint_controller_spawner_stopped
+        # laser,
+        # kinematics,
+        # teleop,
+        # relay_topic_lidar1,
+        # relay_topic_lidar2
+    ])
