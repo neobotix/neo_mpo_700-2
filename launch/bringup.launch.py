@@ -27,6 +27,7 @@ def generate_launch_description():
     with open(urdf, 'r') as infp:  
         robot_desc = infp.read()
 
+    phidgets_drivers_file_dir = os.path.join(get_package_share_directory('phidgets_spatial'), 'launch')
 
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
@@ -37,6 +38,22 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
         arguments=[urdf])
     
+    # Note: imu_link needs to be manually uncommented in the URDF
+    start_imu_driver = ComposableNodeContainer(
+            name='phidget_container',
+            namespace='',
+            package='rclcpp_components',
+            executable='component_container',
+            composable_node_descriptions=[
+                ComposableNode(
+                    package='phidgets_spatial',
+                    plugin='phidgets::SpatialRosI',
+                    name='phidgets_spatial'),
+            ],
+            output='both',
+            condition=IfCondition(imu_enable),
+            parameters=[{'frame_id': robot_namespace.perform(context) + "imu_link"}],
+    )
     # Launch can be set just once, does not matter if you set it for other launch files. 
     # The arguments should certainly have different meaning if there is a bigger launch file
     # Leaving this comment here for a clarity thereof and thereforth. 
@@ -108,15 +125,15 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # relayboard,
-        # start_imu_driver,
+        relayboard,
+        start_imu_driver,
         start_robot_state_publisher_cmd,
         control_node,
         joint_state_broadcaster_spawner,
-        initial_joint_trajectory_controller_spawner
-        # laser,
-        # kinematics,
-        # teleop,
-        # relay_topic_lidar1,
-        # relay_topic_lidar2
+        initial_joint_trajectory_controller_spawner,
+        laser,
+        kinematics,
+        teleop,
+        relay_topic_lidar1,
+        relay_topic_lidar2
     ])
