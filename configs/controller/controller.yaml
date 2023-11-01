@@ -11,7 +11,7 @@ controller_manager:
 linear_axis_controller:
   ros__parameters:
     joints:
-      - linear_axis_joint2
+      - linear_axis_slide_joint
 
     command_interfaces:
       - velocity
@@ -26,10 +26,10 @@ linear_axis_controller:
     allow_partial_joints_goal: false # Defaults to false
     constraints:
       stopped_velocity_tolerance: 0.006 # Defaults to 0.01
-      linear_axis_joint2: {goal: 0.005 }
+      linear_axis_slide_joint: {goal: 0.005 }
 
     gains:
-      linear_axis_joint2:
+      linear_axis_slide_joint:
         p: 0.7
         i: 0.0
         d: 0.0

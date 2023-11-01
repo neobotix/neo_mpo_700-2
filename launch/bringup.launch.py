@@ -27,7 +27,6 @@ def generate_launch_description():
     with open(urdf, 'r') as infp:  
         robot_desc = infp.read()
 
-    phidgets_drivers_file_dir = os.path.join(get_package_share_directory('phidgets_spatial'), 'launch')
 
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
@@ -36,29 +35,12 @@ def generate_launch_description():
         output='screen',
         namespace=robot_namespace,
         parameters=[{'robot_description': robot_desc, 'frame_prefix': robot_namespace}],
-		arguments=[urdf])
-
-    # Note: imu_link needs to be manually uncommented in the URDF
-    start_imu_driver = ComposableNodeContainer(
-            name='phidget_container',
-            namespace='',
-            package='rclcpp_components',
-            executable='component_container',
-            composable_node_descriptions=[
-                ComposableNode(
-                    package='phidgets_spatial',
-                    plugin='phidgets::SpatialRosI',
-                    name='phidgets_spatial'),
-            ],
-            output='both',
-            condition=IfCondition(imu_enable),
-            parameters=[{'frame_id': robot_namespace.perform(context) + "imu_link"}],
-    )
-	
-	# Launch can be set just once, does not matter if you set it for other launch files. 
-	# The arguments should certainly have different meaning if there is a bigger launch file
-	# Leaving this comment here for a clarity thereof and thereforth. 
-	# https://answers.ros.org/question/306935/ros2-include-a-launch-file-from-a-launch-file/
+        arguments=[urdf])
+    
+    # Launch can be set just once, does not matter if you set it for other launch files. 
+    # The arguments should certainly have different meaning if there is a bigger launch file
+    # Leaving this comment here for a clarity thereof and thereforth. 
+    # https://answers.ros.org/question/306935/ros2-include-a-launch-file-from-a-launch-file/
 
     relayboard = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -91,7 +73,7 @@ def generate_launch_description():
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
@@ -99,7 +81,7 @@ def generate_launch_description():
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}])
 
@@ -119,10 +101,10 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    initial_joint_controller_spawner_stopped = Node(
+    initial_joint_trajectory_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
+        arguments=["linear_axis_controller", "-c", "/controller_manager"],
     )
 
     return LaunchDescription([
@@ -131,7 +113,7 @@ def generate_launch_description():
         start_robot_state_publisher_cmd,
         control_node,
         joint_state_broadcaster_spawner,
-        initial_joint_controller_spawner_stopped
+        initial_joint_trajectory_controller_spawner
         # laser,
         # kinematics,
         # teleop,
