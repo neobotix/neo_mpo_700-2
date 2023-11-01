@@ -357,6 +357,16 @@
   <ros2_control name="linear_axis_control" type="system">
     <hardware>
       <plugin>nla/NlaHardwareInterface</plugin>
+        <!-- Can interface to which the motor is connected -->
+        <param name="can_iface">can0</param>
+        <!-- Motor time out -->
+        <param name="timeout">0.2</param>
+        <!-- Motor cycle rate for reading data -->
+        <param name="control_rate">100.0</param>
+        <!-- Initial pose represents the start pose, which the linear axis move to after homing -->
+        <!-- initial pose should be same as that of the initial_value mentioned in the state interface -->
+        <!-- ToDo Remove the redundant initial value parameter -->
+        <param name="initial_pose">0.1</param> 
     </hardware>
     <joint name="linear_axis_slide_joint">
       <command_interface name="velocity">
@@ -365,7 +375,7 @@
         <param name="max">0.2</param>
       </command_interface>
       <state_interface name="position"/>
-      <param name="initial_position">0.1</param>
+      <param name="initial_value">0.1</param>
     </joint>
     <gpio name="linear_axis_gpio">
       <state_interface name="dig_in_1"/>
