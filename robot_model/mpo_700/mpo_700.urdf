@@ -349,7 +349,7 @@
   <joint name="linear_axis_slide_joint" type="prismatic">
     <axis xyz="0 0 1"/>
     <origin xyz="0.0 -0.314 0.0" rpy="0 0 -1.57" />
-    <limit lower="0.1" upper="0.7" effort="54.0" velocity="0.2"/>
+    <limit lower="0.0" upper="0.68" effort="54.0" velocity="0.15"/>
     <parent link="linear_axis_fixed_link"/>
     <child link="linear_axis_slide_link"/>
   </joint>
@@ -371,7 +371,7 @@
     <joint name="linear_axis_slide_joint">
       <command_interface name="velocity">
         <!-- Not used in the code as of now -->
-        <param name="min">0.01</param>
+        <param name="min">0.0</param>
         <param name="max">0.2</param>
       </command_interface>
       <state_interface name="position"/>

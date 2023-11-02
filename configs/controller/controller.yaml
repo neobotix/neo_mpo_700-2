@@ -21,7 +21,8 @@ linear_axis_controller:
       - velocity
 
     state_publish_rate: 100.0 # Defaults to 50
-    action_monitor_rate: 100.0 # Defaults to 20
+    action_monitor_rate: 20.0 # Defaults to 20
+    allow_integration_in_goal_trajectories: true
 
     allow_partial_joints_goal: false # Defaults to false
     constraints:
@@ -30,7 +31,7 @@ linear_axis_controller:
 
     gains:
       linear_axis_slide_joint:
-        p: 0.7
+        p: 0.3
         i: 0.0
         d: 0.0
         i_clamp: 0.0
