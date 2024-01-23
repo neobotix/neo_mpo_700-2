@@ -100,14 +100,14 @@ def execution_stage(context: LaunchContext,
         
         ur_arm = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
-                    os.path.join(get_package_share_directory('ur_robot_driver'),
-                        'launch',
+                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                        'configs/ur',
                         'ur_control.launch.py')
                 ),
                 launch_arguments={
                     'ur_type': arm_typ,
                     'robot_ip': "192.168.1.102",
-                    'launch_rviz': False
+                    'tf_prefix': arm_typ,
                 }.items()
             )
 
