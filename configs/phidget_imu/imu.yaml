@@ -1,0 +1,6 @@
+phidgets_spatial:
+  ros__parameters:
+    # The serial number of the Phidgets Spatial
+    serial: 0
+    # The frame ID of the Phidgets Spatial
+    frame_id: imu_link
