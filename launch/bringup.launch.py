@@ -106,7 +106,7 @@ def execution_stage(context: LaunchContext,
                 ),
                 launch_arguments={
                     'ur_type': arm_typ,
-                    'robot_ip': "192.168.0.101",
+                    'robot_ip': "192.168.1.102",
                     'launch_rviz': False
                 }.items()
             )
