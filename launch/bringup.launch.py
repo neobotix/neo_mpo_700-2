@@ -31,6 +31,10 @@ def execution_stage(context: LaunchContext,
     imu_enabl = str(imu_enable.perform(context))
     d435_enabl = str(d435_enable.perform(context))
 
+    rp_ns = ""
+    if (robot_namespace.perform(context) != "/"):
+        rp_ns = robot_namespace.perform(context) + "/"
+
     launches = []
 
     # Setting up the URDF
@@ -53,7 +57,7 @@ def execution_stage(context: LaunchContext,
             imu_enabl,
             " ", 'use_d435:=',
             d435_enabl
-            ])}],
+            ]), 'frame_prefix': rp_ns}],
 		arguments=[urdf])
 
     launches.append(start_robot_state_publisher_cmd)
@@ -72,10 +76,23 @@ def execution_stage(context: LaunchContext,
         )
     
     launches.append(imu)
-    # 6. D435 - TODO: Add support for D435i
+
+    # 6. D435
+    # TODO: Add support for namespacing
+    d435 = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(get_package_share_directory('realsense2_camera'),
+                    'launch',
+                    'rs_launch.py')
+            ),
+            condition=IfCondition(d435_enable)
+        )
+
+    launches.append(d435)
 
     # 7. Arm - Bringing up drivers for Universal Arm
     # TODO: Add support for Elite Robots
+    # TODO: Add support for namespacing
     if (arm_typ == "ur5" or
         arm_typ == "ur10" or
         arm_typ == "ur5e" or
@@ -90,7 +107,6 @@ def execution_stage(context: LaunchContext,
                 launch_arguments={
                     'ur_type': arm_typ,
                     'robot_ip': "192.168.0.101",
-                    'launch_rviz': False
                 }.items()
             )
 
