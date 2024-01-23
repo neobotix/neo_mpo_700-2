@@ -22,7 +22,7 @@
   </xacro:unless>
 
   <link name="base_link"/>
-  <joint name="base_footprint_joint" type="${ODM_joint_type}">
+  <joint name="base_footprint_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 -1"/>
     <!-- <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="3.5"/> -->
