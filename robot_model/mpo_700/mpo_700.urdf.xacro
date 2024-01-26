@@ -368,7 +368,7 @@
     <link name="cabinet_link">
     <inertial>
       <mass value="2"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0"/>
       <inertia ixx="0.457072" ixy="0.0" ixz="0.0" iyy="0.23616" iyz="0.0" izz="0.686"/>
     </inertial>
     <visual>
@@ -378,7 +378,7 @@
       </geometry>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0. 0. 0"/>
+      <origin rpy="0 0 -1.5708" xyz="0. 0. 0"/>
       <geometry>
         <mesh filename="package://neo_mpo_700-2/robot_model/mpo_700/meshes/cabin.dae" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -399,7 +399,7 @@
       safety_k_position="$(arg safety_k_position)"
       >
       <!-- position robot in the world -->
-      <origin xyz="0.133 0.0 0.416" rpy="0.0 0.0 0.0" />
+      <origin xyz="0.133 0.0 0.416" rpy="0.0 0.0 -1.5708" />
     </xacro:ur_robot>
   </xacro:unless>
 
