@@ -2,29 +2,20 @@
   ros__parameters:
     num_wheels: 4
     control_rate: 100.0
-    wheel_radius: 0.090
-    wheel_lever_arm: 0.045
-    zero_vel_threshold: 0.001
     request_status_divider: 10
     heartbeat_divider: 5
-    small_vel_threshold: 0.02
-    steer_hysteresis: 30
-    steer_hysteresis_dynamic: 5
     steer_gain: 10.0
     steer_lookahead: 0.06
     steer_low_pass: 0.5
     max_steer_vel: 8.0
     motor_delay: 0.0
-    broadcast_tf: true
     can_iface: can0
     motor_timeout: 0.2
-    cmd_timeout: 0.2
     trajectory_timeout: 0.1
     home_vel: -1.0
     drive_low_pass: 0.5
     auto_home: true
     motor_group_id: 30
-    steer_reset_button: 1
     measure_torque: false
 
     drive0:
@@ -36,8 +27,6 @@
     steer0:
       can_id: 1
       joint_name: mpo_700_caster_front_left_joint
-      center_pos_x: 0.240
-      center_pos_y: 0.190
       rot_sign: 1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
@@ -54,8 +43,6 @@
     steer1:
       can_id: 3
       joint_name: mpo_700_caster_back_left_joint
-      center_pos_x: -0.240
-      center_pos_y: 0.190
       rot_sign: -1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
@@ -72,8 +59,6 @@
     steer2:
       can_id: 5
       joint_name: mpo_700_caster_back_right_joint
-      center_pos_x: -0.240
-      center_pos_y: -0.190
       rot_sign: 1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
@@ -90,8 +75,6 @@
     steer3:
       can_id: 7
       joint_name: mpo_700_caster_front_right_joint
-      center_pos_x: 0.240
-      center_pos_y: -0.190
       rot_sign: -1
       gear_ratio: 19
       enc_ticks_per_rev: 10000
