@@ -25,11 +25,15 @@ def execution_stage(context: LaunchContext,
                     robot_namespace,
                     imu_enable,
                     d435_enable,
-                    arm_type):
+                    arm_type,
+                    gripper_type,
+                    mock_arm):
     
     arm_typ = str(arm_type.perform(context))
     imu_enabl = str(imu_enable.perform(context))
     d435_enabl = str(d435_enable.perform(context))
+    gripper_typ = str(gripper_type.perform(context))
+    use_mock = str(mock_arm.perform(context))
 
     rp_ns = ""
     if (robot_namespace.perform(context) != "/"):
@@ -56,7 +60,9 @@ def execution_stage(context: LaunchContext,
             " ", 'use_imu:=',
             imu_enabl,
             " ", 'use_d435:=',
-            d435_enabl
+            d435_enabl,
+            " ", 'gripper_type:=',
+            gripper_typ
             ]), 'frame_prefix': rp_ns}],
 		arguments=[urdf])
 
@@ -108,10 +114,23 @@ def execution_stage(context: LaunchContext,
                     'ur_type': arm_typ,
                     'robot_ip': "192.168.1.102",
                     'tf_prefix': arm_typ,
+                    'use_fake_hardware': use_mock #experimental
                 }.items()
             )
 
         launches.append(ur_arm)
+    
+        if (gripper_typ == "2f_140"):
+
+            gripper = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                            'configs/robotiq',
+                            'robotiq_control.launch.py')
+                    )
+                )
+
+            launches.append(gripper)
 
     # Relaying lidar data to /scan topic
     relay_topic_lidar1 = Node(
@@ -143,8 +162,10 @@ def generate_launch_description():
     imu_enable = LaunchConfiguration('imu_enable')
     realsense_enable = LaunchConfiguration('d435_enable')
     arm_type = LaunchConfiguration('arm_type')
+    gripper_type = LaunchConfiguration('gripper_type')
+    mock_arm = LaunchConfiguration('use_mock_arm')
 
-    context_arguments = [robot_namespace, imu_enable, realsense_enable, arm_type]
+    context_arguments = [robot_namespace, imu_enable, realsense_enable, arm_type, gripper_type, mock_arm]
 
     # Declare the launch arguments
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -164,6 +185,16 @@ def generate_launch_description():
     declare_arm_cmd = DeclareLaunchArgument(
             'arm_type', default_value='',
             description='Arm used in the robot - currently only support universal'
+        )
+
+    declare_robotiq_cmd = DeclareLaunchArgument(
+            'gripper_type', default_value='',
+            description="Enables gripper and it's controllers - Options: 2f_140"
+        )
+
+    declare_mock_arm_cmd = DeclareLaunchArgument(
+            'use_mock_arm', default_value='False',
+            description="Mock arm and gripper (if available)"
         )
     
     #  Launch hardware nodes
@@ -216,6 +247,8 @@ def generate_launch_description():
     ld.add_action(declare_imu_cmd)
     ld.add_action(declare_realsense_cmd)
     ld.add_action(declare_arm_cmd)
+    ld.add_action(declare_robotiq_cmd)
+    ld.add_action(declare_mock_arm_cmd)
     ld.add_action(relayboard)
     ld.add_action(kinematics)
     ld.add_action(teleop)
