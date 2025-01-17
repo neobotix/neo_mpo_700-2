@@ -62,7 +62,9 @@ def execution_stage(context: LaunchContext,
             " ", 'use_d435:=',
             d435_enabl,
             " ", 'gripper_type:=',
-            gripper_typ
+            gripper_typ,
+            " ", 'use_fake_hardware:=',
+            use_mock #experimental
             ]), 'frame_prefix': rp_ns}],
 		arguments=[urdf])
 

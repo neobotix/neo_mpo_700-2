@@ -6,11 +6,13 @@
   <xacro:arg name="use_imu" default="false"/>
   <xacro:arg name="use_d435" default="false"/>
   <xacro:arg name="gripper_type" default=""/>
+  <xacro:arg name="use_fake_hardware" default="false"/>
 
   <xacro:property name="arm" value="$(arg arm_type)"/>
   <xacro:property name="imu" value="$(arg use_imu)"/>
   <xacro:property name="d435" value="$(arg use_d435)"/>
   <xacro:property name="gripper" value="$(arg gripper_type)"/>
+  <xacro:property name="use_fake" value="$(arg use_fake_hardware)"/>
   
   <!-- When there is an arm mounted, the joints of the wheels needs 
   to be of fixed type. The reason being, both the drive modules and 
@@ -415,7 +417,11 @@
 
       <!-- add gripper-->
       <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_140_macro.urdf.xacro"/>
-      <xacro:robotiq_gripper name="robotiq_gripper" prefix="" parent="neo_gripper_mount_link" include_ros2_control="true">
+      <xacro:robotiq_gripper name="robotiq_gripper" 
+        prefix=""
+        parent="neo_gripper_mount_link" 
+        include_ros2_control="true"
+        use_fake_hardware="${use_fake}">
           <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
       </xacro:robotiq_gripper>
     </xacro:unless>
