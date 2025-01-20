@@ -19,7 +19,7 @@ from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
 
 from launch.launch_context import LaunchContext
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 
 def execution_stage(context: LaunchContext,
                     robot_namespace,
@@ -207,7 +207,8 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'namespace': robot_namespace
-            }.items()
+            }.items(),
+            condition=UnlessCondition(mock_arm)
         )
 
     # 2. Kinematics
@@ -217,7 +218,8 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'namespace': robot_namespace
-            }.items()
+            }.items(),
+            condition=UnlessCondition(mock_arm)
         )
 
     # 3. Teleop
@@ -227,7 +229,8 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'namespace': robot_namespace
-            }.items()
+            }.items(),
+            condition=UnlessCondition(mock_arm)
         )
 
     # 4. Laser
@@ -238,7 +241,8 @@ def generate_launch_description():
             ),
             launch_arguments={
                 'namespace': robot_namespace
-            }.items()
+            }.items(),
+            condition=UnlessCondition(mock_arm)
         )
     
     # Opaque function for configuring URDF, IMU, Realsense and the Arm
