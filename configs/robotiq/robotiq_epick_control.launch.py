@@ -94,12 +94,12 @@ def generate_launch_description():
     )
 
     # This is a controller for the Robotiq Epick gripper.
-    epick_controller_spawner = launch_ros.actions.Node(
-        package="controller_manager",
-        executable="spawner",
-        namespace="robotiq_epick_gripper",
-        arguments=["epick_gripper_action_controller", "-c", "controller_manager"],
-    )
+    # epick_activation_controller_spawner = launch_ros.actions.Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     namespace="robotiq_epick_gripper",
+    #     arguments=["epick_gripper_action_controller", "-c", "controller_manager"],
+    # )
 
     epick_status_controller_spawner = launch_ros.actions.Node(
         package="controller_manager",
@@ -108,10 +108,18 @@ def generate_launch_description():
         arguments=["epick_status_publisher_controller", "-c", "controller_manager"],
     )
 
+    epick_controller_spawner = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        namespace="robotiq_epick_gripper",
+        arguments=["epick_controller", "-c", "controller_manager"],
+    )
+
     nodes = [
         control_node,
         epick_controller_spawner,
-        epick_status_controller_spawner
+        epick_status_controller_spawner,
+        # epick_activation_controller_spawner
     ]
 
     return launch.LaunchDescription(args + nodes)
