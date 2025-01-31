@@ -186,7 +186,7 @@ controller_server:
     controller_frequency: 50.0
     failure_tolerance: 0.3
     odom_topic: "odom"
-    controller_plugin_types: ["neo_local_planner::NeoLocalPlanner"]
+    controller_plugin_types: ["neo_local_planner2::NeoLocalPlanner"]
     goal_checker_plugins: ["general_goal_checker"]
     progress_checker_plugin: "progress_checker"
     progress_checker:
@@ -199,7 +199,7 @@ controller_server:
       yaw_goal_tolerance: 0.05
       stateful: True
     FollowPath:
-      plugin: "neo_local_planner::NeoLocalPlanner"
+      plugin: "neo_local_planner2::NeoLocalPlanner"
       acc_lim_x : 0.25
       acc_lim_y : 0.25
       acc_lim_theta : 0.8
