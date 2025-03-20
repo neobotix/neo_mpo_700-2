@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+Author: Pradheep Padmanabhan
+Contributor: Adarsh Karan K P
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_700">
+
+  <!--Caster Wheel Macro-->
+  <xacro:macro name="mpo_700_caster_wheel" params="
+    caster_prefix
+    parent_link
+    caster_joint_type
+    link_origin_rpy
+    *origin
+    ">
+
+    <joint name="${caster_prefix}_joint" type="${caster_joint_type}">
+      <xacro:insert_block name="origin"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="1" friction="1"/>
+      <limit effort="1000.0" lower="-1e+16" upper="1e+16" velocity="100"/>
+      <parent link="${parent_link}"/>
+      <child link="${caster_prefix}_link"/>
+    </joint>
+
+    <link name="${caster_prefix}_link">
+      <inertial>
+        <mass value="12.7"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia 
+          ixx="0.27258101" 
+          ixy="0" 
+          ixz="0" 
+          iyy="0.27258101" 
+          iyz="0" 
+          izz="0.27258101"
+          />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="${link_origin_rpy}"/>
+        <geometry>
+          <mesh filename="package://neo_mpo_700-2/robot_model/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${link_origin_rpy}"/>
+        <geometry>
+          <mesh filename="package://neo_mpo_700-2/robot_model/meshes/MPO-700-HEAD.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+      
+  </xacro:macro>
+
+</robot>

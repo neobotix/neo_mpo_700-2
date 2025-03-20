@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+Author: Pradheep Padmanabhan
+Contributor: Adarsh Karan K P
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_700">
+
+  <!--SICK S300 Macro-->
+  <xacro:macro name="sick_laser_scanner" params="
+    name 
+    parent 
+    *origin
+    ">
+
+    <joint name="${name}_joint" type="fixed">
+      <axis xyz="0 1 0" />
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+    <child link="${name}_link"/>
+    </joint>
+
+    <link name="${name}_link" type="laser">
+      <inertial>
+        <mass value="1.2" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia 
+          ixx="0.11042056" 
+          ixy="0.0" 
+          ixz="0.0" 
+          iyy="0.11042056" 
+          iyz="0.0" 
+          izz="0.11042056"
+          />
+      </inertial>
+      <visual>
+        <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+        <geometry>
+          <mesh filename="package://neo_mpo_700-2/robot_model/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="-1.57 0 3.14" xyz="0 0 -0.12"/>
+        <geometry>
+          <mesh filename="package://neo_mpo_700-2/robot_model/meshes/SICK-S300.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+
+  </xacro:macro>
+</robot>
