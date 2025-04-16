@@ -19,6 +19,7 @@ Contributor: Adarsh Karan K P
   <xacro:arg name="gripper_type" default=""/>
   <xacro:arg name="force_abs_paths" default="false"/>
   <xacro:arg name="simulation_controllers" default=""/>
+  <xacro:arg name="gripper_simulation_controllers" default=""/>
   <xacro:arg name="use_mock_hardware" default="false"/>
   <xacro:arg name="mock_sensor_commands" default="false"/>
 
@@ -141,31 +142,43 @@ Contributor: Adarsh Karan K P
           <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
           <xacro:ur_to_robotiq 
             prefix="" 
-            parent="$(arg tf_prefix)tool0" 
+            parent="$(arg tf_prefix)tool0"
             child="neo_gripper_mount_link"
             rotation="${pi/2}"
             />
-        
+
           <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_140_macro.urdf.xacro"/>
-          <xacro:robotiq_gripper name="robotiq_gripper" 
+          <xacro:robotiq_gripper name="robotiq_gripper"
             prefix=""
-            parent="neo_gripper_mount_link" 
+            parent="neo_gripper_mount_link"
             include_ros2_control="true"
             use_mock_hardware="${use_mock}"
+            mock_sensor_commands="${use_mock}"
+            sim_gazebo= "${gz}"
             >
             <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
           </xacro:robotiq_gripper>
+
+            <!-- <gazebo>
+              <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(arg gripper_simulation_controllers)</parameters>
+                <controller_manager_name>gripper_controller_manager</controller_manager_name>
+                <ros>
+                    <namespace>robotiq_gripper</namespace>
+                </ros>              
+              </plugin>
+            </gazebo> -->
         </xacro:if>
 
         <xacro:if value="${gripper == 'epick'}">
           <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
           <xacro:epick_single_suction_cup parent="$(arg tf_prefix)tool0"
-            use_mock_hardware="${use_mock}"
+            use_fake_hardware="${use_mock}"
             origin_xyz="0 0 0"
             origin_rpy="0 0 -${pi / 2}"
             />
         </xacro:if>
-      
+
       </xacro:unless>
 
   </xacro:unless>
@@ -177,5 +190,3 @@ Contributor: Adarsh Karan K P
   </xacro:if>
 
 </robot>
-
-

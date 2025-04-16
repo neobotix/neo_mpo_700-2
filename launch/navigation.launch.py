@@ -22,8 +22,9 @@ def execution_stage(
         context: LaunchContext,
         use_sim_time,
         autostart, namespace, use_multi_robots,
-        head_robot, use_amcl, map_dir, param_dir, use_rviz):
-    
+        head_robot, use_amcl, map_dir, 
+        param_dir, use_rviz):
+
     launches = []
 
     params = str(param_dir.perform(context))
@@ -34,7 +35,7 @@ def execution_stage(
                 get_package_share_directory('neo_mpo_700-2'),
                 'configs', 'navigation',
                 'navigation.yaml')
-        
+
     nav2_launch_file_dir = os.path.join(get_package_share_directory('neo_nav2_bringup'), 'launch')
 
     # Start navigation and push namespace if and only if the multi robot scenario is set to true. 
@@ -52,6 +53,7 @@ def execution_stage(
                 'params_file': params,
                 'namespace': namespace}.items(),
         ),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/localization_amcl.launch.py']),
             condition=IfCondition(use_amcl),
@@ -65,11 +67,12 @@ def execution_stage(
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([nav2_launch_file_dir, '/navigation_neo.launch.py']),
-            launch_arguments={'namespace': namespace,
-                              'use_sim_time': use_sim_time,
-                              'params_file': params,
-                              'use_rviz': use_rviz,
-                              }.items()),
+            launch_arguments={
+                'namespace': namespace,
+                'use_sim_time': use_sim_time,
+                'params_file': params,
+                'use_rviz': use_rviz}.items()
+        )
     ])
 
     # Start map_server if this robot is assigned as the head robot and if there is no multi-robot,
@@ -92,8 +95,9 @@ def execution_stage(
             name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': use_sim_time},
-						{'autostart': autostart},
-                        {'node_names': ['map_server']}])
+                        {'autostart': autostart},
+                        {'node_names': ['map_server']}]
+            )
         ]
     )
 

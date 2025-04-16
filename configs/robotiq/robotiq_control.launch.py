@@ -84,13 +84,13 @@ def generate_launch_description():
         )
     }
 
-    update_rate_config_file = PathJoinSubstitution(
-        [
-            description_pkg_share,
-            "config",
-            "robotiq_update_rate.yaml",
-        ]
-    )
+    # update_rate_config_file = PathJoinSubstitution(
+    #     [
+    #         description_pkg_share,
+    #         "config",
+    #         "robotiq_update_rate.yaml",
+    #     ]
+    # )
 
     controllers_file = "robotiq_controllers.yaml"
     initial_joint_controllers = os.path.join(get_package_share_directory("robotiq_description"), 'config', controllers_file)
@@ -99,9 +99,10 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         namespace="robotiq_gripper",
+        remappings=[('~/robot_description', '/robot_description')],
         parameters=[
             robot_description_param,
-            update_rate_config_file,
+            # update_rate_config_file,
             initial_joint_controllers,
         ],
     )

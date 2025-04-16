@@ -8,6 +8,7 @@
   <license>BSD</license>
   <url type="website">http://www.neobotix-robots.com</url>
   <author email="padmanabhan@neobotix.de">Pradheep Padmanabhan</author> 
+  <maintainer email="adarshkaran01@gmail.com">adarsh</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>topic_tools</exec_depend>
@@ -37,6 +38,11 @@
   <!-- Dependencies for gripper -->
   <exec_depend>robotiq_description</exec_depend>
   <exec_depend>robotiq_controllers</exec_depend>
+
+  <!-- mp_utils Dependencies -->
+  <exec_depend>mp_bringup</exec_depend>
+  <exec_depend>mp_components</exec_depend>
+  <exec_depend>mp_rviz</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
