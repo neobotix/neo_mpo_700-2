@@ -66,7 +66,6 @@ def launch_setup(context):
     use_tool_communication = LaunchConfiguration("use_tool_communication")
     tool_device_name = LaunchConfiguration("tool_device_name")
     tool_tcp_port = LaunchConfiguration("tool_tcp_port")
-    gripper_type = str(LaunchConfiguration("gripper_type").perform(context))
 
     control_node = Node(
         package="controller_manager",
@@ -450,14 +449,6 @@ def generate_launch_description():
                 LaunchConfiguration("ur_type"),
                 "_update_rate.yaml",
             ],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            name="gripper_type",
-            default_value='',
-            choices=['', '2f_140', '2f_85', 'epick'],
-            description='Gripper Types - Supported Robots [mpo-700, mpo-500]\n\t'
         )
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

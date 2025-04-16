@@ -99,7 +99,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         namespace="robotiq_gripper",
-        remappings=[('~/robot_description', '/robot_description')],
+        remappings=[('/robotiq_gripper/robot_description', '/robot_description')],
         parameters=[
             robot_description_param,
             # update_rate_config_file,
@@ -138,19 +138,11 @@ def generate_launch_description():
             "controller_manager"],
     )
 
-    joint_states_remapping = launch_ros.actions.Node(
-            package="topic_tools",  # A package for relaying or remapping topics
-            executable="relay",          # Relay tool for remapping topics
-            name="joint_states_relay",
-            parameters=[{'input_topic': "/robotiq_gripper/joint_states",'output_topic': "/joint_states"}]
-            )
-
     nodes = [
         control_node,
 	    joint_state_broadcaster_spawner,
         robotiq_gripper_controller_spawner,
         robotiq_activation_controller_spawner,
-        joint_states_remapping,
     ]
 
     return launch.LaunchDescription(args + nodes)
