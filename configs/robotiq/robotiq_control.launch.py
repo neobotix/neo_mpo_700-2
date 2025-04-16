@@ -62,7 +62,7 @@ def generate_launch_description():
 
     args.append(
         launch.actions.DeclareLaunchArgument(
-            name="use_fake_hardware",
+            name="use_mock_hardware",
             default_value="false",
             description="Mock gripper",
         )
@@ -74,8 +74,8 @@ def generate_launch_description():
             " ",
             LaunchConfiguration("model"),
             " ",
-            "use_fake_hardware:=",
-            LaunchConfiguration("use_fake_hardware")
+            "use_mock_hardware:=",
+            LaunchConfiguration("use_mock_hardware")
         ]
     )
     robot_description_param = {
@@ -138,7 +138,7 @@ def generate_launch_description():
             "controller_manager"],
     )
 
-    remapping_launch = launch_ros.actions.Node(
+    joint_states_remapping = launch_ros.actions.Node(
             package="topic_tools",  # A package for relaying or remapping topics
             executable="relay",          # Relay tool for remapping topics
             name="joint_states_relay",
@@ -150,7 +150,7 @@ def generate_launch_description():
 	    joint_state_broadcaster_spawner,
         robotiq_gripper_controller_spawner,
         robotiq_activation_controller_spawner,
-        remapping_launch
+        joint_states_remapping,
     ]
 
     return launch.LaunchDescription(args + nodes)

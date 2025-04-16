@@ -200,31 +200,29 @@ def execution_stage(context: LaunchContext,
 
         launches.append(ur_arm)
 
-        # # For 2f_140
-        # # TODO: Mock gripper support
-        # if (gripper_typ == "2f_140"):
+        # For 2f_140
+        if (gripper_typ == "2f_140"):
+            gripper_2f_140 = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                            'configs/robotiq',
+                            'robotiq_control.launch.py')
+                    )
+                )
 
-        #     gripper_2f_140 = IncludeLaunchDescription(
-        #         PythonLaunchDescriptionSource(
-        #             os.path.join(neo_mpo_700,
-        #                     'configs/robotiq',
-        #                     'robotiq_control.launch.py')
-        #             )
-        #         )
+            launches.append(gripper_2f_140)
 
-        #     launches.append(gripper_2f_140)
+        # For Epick
+        elif (gripper_typ == "epick"):
+            gripper_epick = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                            'configs/robotiq',
+                            'robotiq_epick_control.launch.py')
+                    )
+                )
 
-        # # For Epick
-        # elif (gripper_typ == "epick"):
-        #     gripper_epick = IncludeLaunchDescription(
-        #         PythonLaunchDescriptionSource(
-        #             os.path.join(neo_mpo_700,
-        #                     'configs/robotiq',
-        #                     'robotiq_epick_control.launch.py')
-        #             )
-        #         )
-
-        #     launches.append(gripper_epick)
+            launches.append(gripper_epick)
 
     # Relaying lidar data to /scan topic
     relay_topic_lidar1 = Node(

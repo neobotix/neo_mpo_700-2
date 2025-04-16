@@ -175,13 +175,6 @@ def launch_setup(context):
         controller_spawner(controllers_inactive, active=False),
     ]
 
-    if gripper_type == "2f_140":
-        gripper_controllers = [
-            "robotiq_gripper_controller",
-            "robotiq_activation_controller",
-        ]
-        controller_spawners.append(controller_spawner(gripper_controllers))
-
     nodes_to_start = [
         control_node,
         dashboard_client_node,
