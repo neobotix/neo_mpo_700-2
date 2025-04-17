@@ -99,12 +99,18 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         namespace="robotiq_gripper",
-        remappings=[('/robotiq_gripper/robot_description', '/robot_description')],
         parameters=[
-            robot_description_param,
             # update_rate_config_file,
             initial_joint_controllers,
         ],
+    )
+
+    robot_state_pub_node = launch_ros.actions.Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="both",
+        parameters=[robot_description_param],
+        namespace="robotiq_gripper",
     )
 
     joint_state_broadcaster_spawner = launch_ros.actions.Node(
@@ -115,9 +121,8 @@ def generate_launch_description():
             "joint_state_broadcaster",
             "--controller-manager",
             "controller_manager",
-        ],
-        remappings=[
-            ("/robotiq_gripper/joint_states", "/joint_states"),  # Correctly remap the topic
+            "--controller-ros-args",
+            '--ros-args -r /robotiq_gripper/joint_states:=/joint_states'
         ],
         output="screen",
     )
@@ -140,6 +145,7 @@ def generate_launch_description():
 
     nodes = [
         control_node,
+        robot_state_pub_node,
 	    joint_state_broadcaster_spawner,
         robotiq_gripper_controller_spawner,
         robotiq_activation_controller_spawner,

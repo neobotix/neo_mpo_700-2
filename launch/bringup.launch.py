@@ -68,7 +68,7 @@ def execution_stage(context: LaunchContext,
                 "xacro", " ", urdf,
                 " ", 'arm_type:=', arm_typ,
                 " ", 'robot_ip:=', "yyy.yyy.yyy.yyy",
-                " ", 'gripper_type:=', gripper_typ,
+                # " ", 'gripper_type:=', gripper_typ,
                 " ", 'use_mock_hardware:=', use_mock,  # experimental
                 " ", 'use_mock_sensor_commands:=', use_mock,
                 " ", 'use_imu:=', imu_enabl,
@@ -193,7 +193,7 @@ def execution_stage(context: LaunchContext,
                     'use_mock_hardware': use_mock,
                     'mock_sensor_commands': use_mock,
                     'initial_joint_controller': initial_joint_controller,
-                    'gripper_type': gripper_typ,
+                    # 'gripper_type': gripper_typ,
                     'controllers_file': controllers_yaml,
                 }.items()
             )

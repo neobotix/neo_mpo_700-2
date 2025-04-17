@@ -192,16 +192,3 @@ tcp_pose_broadcaster:
 tool_contact_controller:
   ros__parameters:
     tf_prefix: "$(var tf_prefix)"
-
-# Robotiq gripper controller
-robotiq_gripper_controller:
-  ros__parameters:
-    update_rate: 100
-    default: true
-    joint: finger_joint # for 2f_140 gripper
-    use_effort_interface: true
-    use_speed_interface: true
-
-robotiq_activation_controller:
-  ros__parameters:
-    default: true
