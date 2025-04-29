@@ -55,6 +55,21 @@ def execution_stage(context: LaunchContext,
         'robot_model',
         'mpo_700.urdf.xacro')
     
+    xacro_args = [
+        "xacro", " ", urdf,
+        " ", 'arm_type:=', arm_typ,
+        " ", 'robot_ip:=', "yyy.yyy.yyy.yyy",
+        " ", 'gripper_type:=', gripper_typ,
+        " ", 'use_mock_hardware:=', use_mock,  # experimental
+        " ", 'use_mock_sensor_commands:=', use_mock,
+        " ", 'use_imu:=', imu_enabl,
+        " ", 'use_d435:=', d435_enabl,
+        " ", 'scanner_type:=', scanner_typ,
+        " ", 'use_docking_adapter:=', use_docking_adapter,
+    ]
+    if arm_typ != "":
+        xacro_args.extend([" include_arm_ros2_control:=", "true"])
+
     # Start robot state publisher
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
@@ -63,21 +78,7 @@ def execution_stage(context: LaunchContext,
         output='screen',
         namespace=robot_namespace,
         parameters=[{
-            'robot_description': ParameterValue(
-                Command([
-                "xacro", " ", urdf,
-                " ", 'arm_type:=', arm_typ,
-                " ", 'robot_ip:=', "yyy.yyy.yyy.yyy",
-                # " ", 'gripper_type:=', gripper_typ,
-                " ", 'use_mock_hardware:=', use_mock,  # experimental
-                " ", 'use_mock_sensor_commands:=', use_mock,
-                " ", 'use_imu:=', imu_enabl,
-                " ", 'use_d435:=', d435_enabl,
-                " ", 'scanner_type:=', scanner_typ,
-                " ", 'use_docking_adapter:=', use_docking_adapter
-            ]),
-            value_type=str
-            ),
+            'robot_description': ParameterValue(Command(xacro_args), value_type=str),
             'frame_prefix': rp_ns
         }],
         arguments=[urdf]
@@ -85,6 +86,27 @@ def execution_stage(context: LaunchContext,
 
     launches.append(start_robot_state_publisher_cmd)
 
+    # Conditionally add gripper state publisher
+    if gripper_typ != "":
+        gripper_xacro_args = xacro_args.copy()
+        gripper_xacro_args.extend([
+            " include_gripper_ros2_control:=", "true",# Include only the gripper ros2_control tags
+            " include_arm_ros2_control:=", "false"])
+        
+        gripper_robot_state_publisher_cmd = Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            namespace="robotiq_gripper",
+            parameters=[{
+                'robot_description': ParameterValue(Command(gripper_xacro_args), value_type=str),
+                'frame_prefix': rp_ns
+            }],
+            arguments=[urdf]
+        )
+        launches.append(gripper_robot_state_publisher_cmd)
+    
     #  Launch hardware nodes
     # 1. Relayboard
     relayboard = IncludeLaunchDescription(
@@ -193,8 +215,8 @@ def execution_stage(context: LaunchContext,
                     'use_mock_hardware': use_mock,
                     'mock_sensor_commands': use_mock,
                     'initial_joint_controller': initial_joint_controller,
-                    # 'gripper_type': gripper_typ,
                     'controllers_file': controllers_yaml,
+                    'description_launchfile': urdf,
                 }.items()
             )
 

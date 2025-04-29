@@ -34,7 +34,7 @@ from launch.substitutions import (
     PathJoinSubstitution,
 )
 from launch_ros.parameter_descriptions import ParameterFile, ParameterValue
-from launch.conditions import IfCondition
+from launch.conditions import UnlessCondition
 from ament_index_python.packages import get_package_share_directory
 import launch_ros
 import os
@@ -75,7 +75,10 @@ def generate_launch_description():
             LaunchConfiguration("model"),
             " ",
             "use_mock_hardware:=",
-            LaunchConfiguration("use_mock_hardware")
+            LaunchConfiguration("use_mock_hardware"),
+            " ",
+            "mock_sensor_commands:=",
+            LaunchConfiguration("use_mock_hardware"),
         ]
     )
     robot_description_param = {
@@ -103,15 +106,20 @@ def generate_launch_description():
             # update_rate_config_file,
             initial_joint_controllers,
         ],
+        remappings=[
+            # ('~/robot_description', 'robot_description'),
+            ('/robotiq_gripper/joint_states','/joint_states'),
+            ('/robotiq_gripper/dynamic_joint_states','/dynamic_joint_states'),
+        ],
     )
 
-    robot_state_pub_node = launch_ros.actions.Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        output="both",
-        parameters=[robot_description_param],
-        namespace="robotiq_gripper",
-    )
+    # robot_state_pub_node = launch_ros.actions.Node(
+    #     package="robot_state_publisher",
+    #     executable="robot_state_publisher",
+    #     output="both",
+    #     parameters=[robot_description_param],
+    #     namespace="robotiq_gripper",
+    # )
 
     joint_state_broadcaster_spawner = launch_ros.actions.Node(
         package="controller_manager",
@@ -121,8 +129,9 @@ def generate_launch_description():
             "joint_state_broadcaster",
             "--controller-manager",
             "controller_manager",
-            "--controller-ros-args",
-            '--ros-args -r /robotiq_gripper/joint_states:=/joint_states'
+            # "--controller-ros-args",
+            # '--ros-args -r /robotiq_gripper/joint_states:=/joint_states',
+            #  '--controller-manager-timeout', '60'
         ],
         output="screen",
     )
@@ -141,11 +150,13 @@ def generate_launch_description():
         namespace="robotiq_gripper",
         arguments=["robotiq_activation_controller", "-c", 
             "controller_manager"],
+        condition=UnlessCondition(
+            LaunchConfiguration("use_mock_hardware"),
+),
     )
 
     nodes = [
         control_node,
-        robot_state_pub_node,
 	    joint_state_broadcaster_spawner,
         robotiq_gripper_controller_spawner,
         robotiq_activation_controller_spawner,
