@@ -54,7 +54,7 @@ def execution_stage(context: LaunchContext,
     urdf = os.path.join(neo_mpo_700,
         'robot_model',
         'mpo_700.urdf.xacro')
-    
+
     xacro_args = [
         "xacro", " ", urdf,
         " ", 'arm_type:=', arm_typ,
@@ -68,7 +68,7 @@ def execution_stage(context: LaunchContext,
         " ", 'use_docking_adapter:=', use_docking_adapter,
     ]
     if arm_typ != "":
-        xacro_args.extend([" include_arm_ros2_control:=", "true"])
+        xacro_args.extend([" include_arm_ros2_control:=", "true"]) # Include only the arm ros2_control tags
 
     # Start robot state publisher
     start_robot_state_publisher_cmd = Node(
@@ -81,32 +81,15 @@ def execution_stage(context: LaunchContext,
             'robot_description': ParameterValue(Command(xacro_args), value_type=str),
             'frame_prefix': rp_ns
         }],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static'),
+            ],
         arguments=[urdf]
     )
 
     launches.append(start_robot_state_publisher_cmd)
 
-    # Conditionally add gripper state publisher
-    if gripper_typ != "":
-        gripper_xacro_args = xacro_args.copy()
-        gripper_xacro_args.extend([
-            " include_gripper_ros2_control:=", "true",# Include only the gripper ros2_control tags
-            " include_arm_ros2_control:=", "false"])
-        
-        gripper_robot_state_publisher_cmd = Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            namespace="robotiq_gripper",
-            parameters=[{
-                'robot_description': ParameterValue(Command(gripper_xacro_args), value_type=str),
-                'frame_prefix': rp_ns
-            }],
-            arguments=[urdf]
-        )
-        launches.append(gripper_robot_state_publisher_cmd)
-    
     #  Launch hardware nodes
     # 1. Relayboard
     relayboard = IncludeLaunchDescription(
@@ -216,42 +199,57 @@ def execution_stage(context: LaunchContext,
                     'mock_sensor_commands': use_mock,
                     'initial_joint_controller': initial_joint_controller,
                     'controllers_file': controllers_yaml,
-                    'description_launchfile': urdf,
                 }.items()
             )
 
         launches.append(ur_arm)
 
-        # For 2f_140
-        if (gripper_typ == "2f_140"):
-            gripper_2f_140 = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
-                            'configs/robotiq',
-                            'robotiq_control.launch.py')
+        # Conditionally add grippers
+        if gripper_typ != "":
+            gripper_xacro_args = xacro_args.copy()
+            gripper_xacro_args.extend([
+                " include_gripper_ros2_control:=", "true",# Include only the gripper ros2_control tags
+                " include_arm_ros2_control:=", "false"])
+
+            # For 2f_140
+            if (gripper_typ == "2f_140" or gripper_typ == "2f_85"):
+                robotiq_2f_gripper = IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(
+                        os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                                'configs/robotiq',
+                                'robotiq_control.launch.py')
+                        ),
+                        launch_arguments={
+                            'robot_description_content': Command(gripper_xacro_args),
+                            'use_mock_hardware': use_mock,
+                            'model': os.path.join(get_package_share_directory('robotiq_description'),
+                                            "urdf", 
+                                            f"robotiq_{gripper_typ}_gripper.urdf.xacro"
+                                            ),
+                            'controllers_file': f"robotiq_{gripper_typ}_controllers.yaml"
+                        }.items()
                     )
-                )
 
-            launches.append(gripper_2f_140)
+                launches.append(robotiq_2f_gripper)
 
-        # For Epick
-        elif (gripper_typ == "epick"):
-            gripper_epick = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(get_package_share_directory('neo_mpo_700-2'),
-                            'configs/robotiq',
-                            'robotiq_epick_control.launch.py')
+            # For Epick
+            elif (gripper_typ == "epick"):
+                gripper_epick = IncludeLaunchDescription(
+                    PythonLaunchDescriptionSource(
+                        os.path.join(get_package_share_directory('neo_mpo_700-2'),
+                                'configs/robotiq',
+                                'robotiq_epick_control.launch.py')
+                        )
                     )
-                )
 
-            launches.append(gripper_epick)
+                launches.append(gripper_epick)
 
     # Relaying lidar data to /scan topic
     relay_topic_lidar1 = Node(
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(mock_arm)
@@ -261,7 +259,7 @@ def execution_stage(context: LaunchContext,
             package='topic_tools',
             executable = 'relay',
             name='relay',
-			namespace =  robot_namespace,
+            namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(mock_arm)
@@ -278,23 +276,23 @@ def generate_launch_description():
     declare_namespace_cmd = DeclareLaunchArgument(
             'robot_namespace', default_value='', description='Top-level namespace'
         )
-    
+
     declare_imu_cmd = DeclareLaunchArgument(
             'imu_enable', default_value='False',
             description='Enable IMU - Options: True/False'
         )
-    
+
     declare_realsense_cmd = DeclareLaunchArgument(
             'd435_enable', default_value='False',
             description='Enable Realsense - Options: True/False'
         )
-    
+
     declare_scanner_type_cmd = DeclareLaunchArgument(
             'scanner_type', default_value='sick_s300',
             choices=['', 'sick_s300', 'sick_microscan3'],
             description='Type of laser scanner to use'
         )
-    
+
     declare_use_docking_adapter_cmd = DeclareLaunchArgument(
             'use_docking_adapter', default_value='False',
             description='Enable docking adapter - Options: True/False'
@@ -308,7 +306,7 @@ def generate_launch_description():
 
     declare_robotiq_cmd = DeclareLaunchArgument(
             'gripper_type', default_value='',
-            choices=['', '2f_140', 'epick'],
+            choices=['', '2f_140', '2f_85', 'epick'],
             description="Enables gripper and it's controllers"
         )
 
@@ -316,7 +314,7 @@ def generate_launch_description():
             'use_mock_arm', default_value='False',
             description="Mock arm and gripper (if available)"
         )
-    
+
     declare_initial_joint_controller_cmd = DeclareLaunchArgument(
             'initial_joint_controller',
             default_value='scaled_joint_trajectory_controller',

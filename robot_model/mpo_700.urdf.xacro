@@ -141,7 +141,7 @@ Contributor: Adarsh Karan K P
       <xacro:unless value="${gripper == ''}">
 
         <!-- ur_adapter for gripper-->
-        <xacro:if value="${gripper == '2f_140'}">
+        <xacro:if value="${gripper == '2f_140' or gripper == '2f_85'}">
           <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
           <xacro:ur_to_robotiq 
             prefix="" 
@@ -150,7 +150,7 @@ Contributor: Adarsh Karan K P
             rotation="${pi/2}"
             />
 
-          <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_140_macro.urdf.xacro"/>
+          <xacro:include filename="$(find robotiq_description)/urdf/robotiq_${gripper}_macro.urdf.xacro"/>
           <xacro:robotiq_gripper name="robotiq_gripper"
             prefix=""
             parent="neo_gripper_mount_link"
@@ -162,15 +162,6 @@ Contributor: Adarsh Karan K P
             <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
           </xacro:robotiq_gripper>
 
-            <!-- <gazebo>
-              <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-                <parameters>$(arg gripper_simulation_controllers)</parameters>
-                <controller_manager_name>gripper_controller_manager</controller_manager_name>
-                <ros>
-                    <namespace>robotiq_gripper</namespace>
-                </ros>              
-              </plugin>
-            </gazebo> -->
         </xacro:if>
 
         <xacro:if value="${gripper == 'epick'}">

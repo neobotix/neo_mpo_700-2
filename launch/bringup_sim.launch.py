@@ -90,7 +90,7 @@ def generate_launch_description():
 
     declare_gripper_type_cmd = DeclareLaunchArgument(
             'gripper_type', default_value='',
-            choices=['', '2f_140', '2f_85', 'epick'],
+            choices=['', '2f_140', '2f_85'], # epick gripper not supported in simulation yet
             description='Gripper Types\n\t'
         )
 
