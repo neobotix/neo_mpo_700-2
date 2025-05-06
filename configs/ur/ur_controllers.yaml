@@ -42,11 +42,6 @@ controller_manager:
     tool_contact_controller:
       type: ur_controllers/ToolContactController
 
-    robotiq_gripper_controller:
-      type: position_controllers/GripperActionController
-
-    robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
     # The way this is currently implemented upstream doesn't really work for us. When using
     # position control, the robot will have a tracking error. However, limits will be enforced
     # from the currently reported position, effectively limiting the possible step size using the

@@ -25,7 +25,7 @@ def execution_stage(
         head_robot, use_amcl, map_dir, 
         param_dir, use_rviz):
 
-    launches = []
+    launch_actions = []
 
     params = str(param_dir.perform(context))
 
@@ -101,10 +101,10 @@ def execution_stage(
         ]
     )
 
-    launches.append(start_navigation)
-    launches.append(start_map_server)
+    launch_actions.append(start_navigation)
+    launch_actions.append(start_map_server)
 
-    return launches
+    return launch_actions
 
 def generate_launch_description():
     launch_desc = LaunchDescription()
