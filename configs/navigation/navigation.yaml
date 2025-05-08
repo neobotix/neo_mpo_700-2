@@ -57,7 +57,7 @@ neo_localization2_node:
     # if to broadcast map frame
     broadcast_tf: true
     # Scan topic
-    scan_topic: "scan"
+    scan_topic: "lidar_1/scan_filtered"
     # Initial Pose topic
     initialpose: initialpose
     # Map Tile topic
@@ -68,6 +68,8 @@ neo_localization2_node:
     particle_cloud: particlecloud
     # amcl_pose topic
     amcl_pose: amcl_pose
+    # set init_pose
+    set_initial_pose: true
 
 amcl:
   ros__parameters:
@@ -142,10 +144,11 @@ bt_navigator:
 controller_server:
   ros__parameters:
     # controller server parameters (see Controller Server for more info)
-    controller_plugins: ["FollowPath"]
+    use_sim_time: False
     controller_frequency: 50.0
     failure_tolerance: 0.3
     odom_topic: "odom"
+    controller_plugins: ["FollowPath"]
     goal_checker_plugins: ["general_goal_checker"]
     progress_checker_plugin: "progress_checker"
     progress_checker:
@@ -200,14 +203,13 @@ local_costmap:
       publish_frequency: 1.0
       global_frame: odom
       robot_base_frame: base_link
-      footprint_padding: 0.
+      footprint_padding: 0.0
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
       rolling_window: true
       width: 5
       height: 5
       resolution: 0.03
-      # robot_radius: 0.22
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
@@ -245,7 +247,6 @@ global_costmap:
       footprint_padding: 0.
       footprint:  "[ [0.45,0.4],[-0.45,0.4],[-0.45,-0.4],[0.45,-0.4] ]"
       use_sim_time: False
-      # robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -278,17 +279,11 @@ global_costmap:
         cost_scaling_factor: 4.0
         inflation_radius: 1.0
       always_send_full_costmap: True
-  global_costmap_client:
-    ros__parameters:
-      use_sim_time: False
-  global_costmap_rclcpp_node:
-    ros__parameters:
-      use_sim_time: False
 
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "neo_track1.yaml"
+    yaml_filename: "neo_workshop.yaml"
 
 map_saver:
   ros__parameters:

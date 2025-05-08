@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!--
+Author: Pradheep Padmanabhan
+Contributor: Adarsh Karan K P
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mpo_700">
+<!-- This is the main URDF file for mpo_700-->
+
+  <!-- Xacro Arguments-->
+  <xacro:arg name="use_gz" default="false"/>
+  <xacro:arg name="use_imu" default="false"/>
+  <xacro:arg name="use_d435" default="false"/>
+  <xacro:arg name="scanner_type" default="sick_s300"/>
+  <xacro:arg name="use_docking_adapter" default="false"/>
+
+  <!-- Manipulator Arguments-->
+  <xacro:arg name="arm_type" default=""/>
+  <xacro:arg name="arm_parent" default="cabinet_link"/>
+  <xacro:arg name="gripper_type" default=""/>
+  <xacro:arg name="force_abs_paths" default="false"/>
+  <xacro:arg name="simulation_controllers" default=""/>
+  <xacro:arg name="use_mock_hardware" default="false"/>
+  <xacro:arg name="mock_sensor_commands" default="false"/>
+
+  <xacro:arg name="include_arm_ros2_control" default="false"/>
+  <xacro:arg name="include_gripper_ros2_control" default="false"/>
+
+  <!-- Xacro Properties -->
+  <xacro:property name="arm" value="$(arg arm_type)"/>
+  <xacro:property name="gz" value="$(arg use_gz)"/>
+  <xacro:property name="imu" value="$(arg use_imu)"/>
+  <xacro:property name="d435" value="$(arg use_d435)"/>
+  <xacro:property name="scanner" value="$(arg scanner_type)"/>
+  <xacro:property name="scanner_height" value="0"/>
+  <xacro:property name="gripper" value="$(arg gripper_type)"/>
+  <xacro:property name="docking_adapter" value="$(arg use_docking_adapter)"/>
+  <xacro:property name="use_mock" value="$(arg use_mock_hardware)"/>
+  
+  <!-- OmniDriveModule(ODM)-> When there is an arm mounted, the joints of the wheels needs 
+  to be of fixed type. The reason being, both the drive modules and 
+  the arm cannot publish joint states simultenously. Thus we omit
+  the visualization of the drives. Issue will be fixed, when we switch
+  to ROS 2 control. -->
+  <xacro:property name="ODM_joint_type" value="revolute"/>
+
+  <!-- Additionally for simulation, the joint type of the wheels needs to be fixed. -->
+  <xacro:if value="${gz == True or arm != ''}">
+    <xacro:property name="ODM_joint_type" value="fixed"/>
+  </xacro:if>
+
+  <!-- Include the robot body -->
+  <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/mpo_700_body.urdf.xacro"/>
+  <xacro:mpo_700_body/>
+
+  <!-- Laser Scanners -->
+  <xacro:if value="${scanner == 'sick_s300'}">
+    <!--https://neobotix-docs.de/hardware/en/platforms/mpo-700/mechanical.html-->
+    <xacro:property name="scanner_height" value="0.223"/>
+    <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_s300_macro.xacro"/>
+  </xacro:if>
+
+  <xacro:if value="${scanner == 'sick_microscan3'}">
+    <xacro:property name="scanner_height" value="0.223"/>
+    <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_microscan3_macro.xacro"/>
+  </xacro:if>
+
+  <xacro:sick_laser_scanner 
+    name="lidar_1" 
+    parent="base_link"
+    >
+    <origin rpy="3.14 0 0.79" xyz="0.338 0.288 ${scanner_height}"/>
+  </xacro:sick_laser_scanner>
+
+  <xacro:sick_laser_scanner
+    name="lidar_2" 
+    parent="base_link"
+    >
+    <origin rpy="3.14 0 3.93" xyz="-0.338 -0.288 ${scanner_height}"/>
+  </xacro:sick_laser_scanner>
+
+  <!-- Using IMU -->
+  <xacro:if value="${imu == True}">
+    <link name="imu_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia 
+          ixx="0.0001" 
+          ixy="0" 
+          ixz="0" 
+          iyy="0.000001" 
+          iyz="0" 
+          izz="0.0001"
+          />
+      </inertial>  
+    </link>
+    <joint name="imu_joint" type="fixed">
+      <axis xyz="0 1 0"/>
+      <origin rpy="0 0 0" xyz="-0.052 0.208 0.266"/>
+      <parent link="base_link"/>
+      <child link="imu_link"/>
+    </joint>
+  </xacro:if>
+
+  <!-- Realsense D435 -->
+  <xacro:if value="${d435 == True}">
+    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro"/>
+    <xacro:sensor_d435 parent="base_link">
+      <origin xyz="0.292 0.0 0.716" rpy="0 0 0"/>
+    </xacro:sensor_d435>
+  </xacro:if>
+
+  <!-- Import docking adapter -->
+  <xacro:if value="${docking_adapter == True}">
+    <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/mpo_700_docking_adapter_macro.xacro"/>
+    <xacro:mpo_700_docking_adapter name="docking_adapter" parent="base_link">
+      <origin xyz="-0.300 0 0.320" rpy="0 0 -1.57" />
+    </xacro:mpo_700_docking_adapter>
+  </xacro:if>
+
+  <!-- arm -->
+  <xacro:unless value="${arm == ''}">
+
+    <!-- include cabinet -->
+    <xacro:include filename="$(find mp_components)/urdf/arm/mpo_cabinet_macro.xacro" />
+    <xacro:cabinet name="cabinet" parent="base_link">
+      <origin rpy="0 0 0" xyz="0.025 0 0.35"/>
+    </xacro:cabinet>
+
+    <!-- Universal Robotics (UR) Arms-->
+    <xacro:if value="${arm == 'ur5' or arm == 'ur10' or arm == 'ur5e' or arm == 'ur10e'}">
+      <xacro:include filename="$(find mp_components)/urdf/arm/ur_arm.urdf.xacro"/>
+    </xacro:if>
+
+    <!-- Elite Arms-->
+    <xacro:if value="${arm == 'ec66' or arm == 'cs66'}">
+      <xacro:include filename="$(find mp_components)/urdf/arm/elite_arm.urdf.xacro"/>
+    </xacro:if>
+
+    <!-- add gripper-->
+    <xacro:unless value="${gripper == ''}">
+
+      <!-- ur_adapter for gripper-->
+      <xacro:if value="${gripper == '2f_140' or gripper == '2f_85'}">
+        <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
+        <xacro:ur_to_robotiq 
+          prefix="" 
+          parent="$(arg tf_prefix)tool0"
+          child="neo_gripper_mount_link"
+          rotation="${pi/2}"
+          />
+
+        <xacro:include filename="$(find robotiq_description)/urdf/robotiq_${gripper}_macro.urdf.xacro"/>
+        <xacro:robotiq_gripper name="robotiq_gripper"
+          prefix=""
+          parent="neo_gripper_mount_link"
+          use_mock_hardware="${use_mock}"
+          mock_sensor_commands="${use_mock}"
+          sim_gazebo="${gz}"
+          include_ros2_control="$(arg include_gripper_ros2_control)"
+          >
+          <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
+        </xacro:robotiq_gripper>
+
+      </xacro:if>
+
+      <xacro:if value="${gripper == 'epick'}">
+        <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
+        <xacro:epick_single_suction_cup parent="$(arg tf_prefix)tool0"
+          use_fake_hardware="${use_mock}"
+          origin_xyz="0 0 0"
+          origin_rpy="0 0 -${pi / 2}"
+          />
+      </xacro:if>
+
+    </xacro:unless>
+
+  </xacro:unless>
+
+  <!-- Simulation -->
+  <xacro:if value="${gz == True}">
+    <xacro:include filename="$(find mp_components)/urdf/gazebo/mpo_700/mpo_700_gazebo.urdf.xacro" />
+    <xacro:mpo_700_gazebo />
+  </xacro:if>
+
+</robot>
