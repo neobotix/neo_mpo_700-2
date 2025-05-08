@@ -13,7 +13,7 @@ Contributor: Adarsh Karan K P
   <xacro:arg name="scanner_type" default="sick_s300"/>
   <xacro:arg name="use_docking_adapter" default="false"/>
 
-  <!-- Arm Arguments-->
+  <!-- Manipulator Arguments-->
   <xacro:arg name="arm_type" default=""/>
   <xacro:arg name="arm_parent" default="cabinet_link"/>
   <xacro:arg name="gripper_type" default=""/>
@@ -120,6 +120,7 @@ Contributor: Adarsh Karan K P
 
   <!-- arm -->
   <xacro:unless value="${arm == ''}">
+
     <!-- include cabinet -->
     <xacro:include filename="$(find mp_components)/urdf/arm/mpo_cabinet_macro.xacro" />
     <xacro:cabinet name="cabinet" parent="base_link">
@@ -136,43 +137,43 @@ Contributor: Adarsh Karan K P
       <xacro:include filename="$(find mp_components)/urdf/arm/elite_arm.urdf.xacro"/>
     </xacro:if>
 
-      <!-- add gripper-->
-      <xacro:unless value="${gripper == ''}">
+    <!-- add gripper-->
+    <xacro:unless value="${gripper == ''}">
 
-        <!-- ur_adapter for gripper-->
-        <xacro:if value="${gripper == '2f_140' or gripper == '2f_85'}">
-          <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
-          <xacro:ur_to_robotiq 
-            prefix="" 
-            parent="$(arg tf_prefix)tool0"
-            child="neo_gripper_mount_link"
-            rotation="${pi/2}"
-            />
+      <!-- ur_adapter for gripper-->
+      <xacro:if value="${gripper == '2f_140' or gripper == '2f_85'}">
+        <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
+        <xacro:ur_to_robotiq 
+          prefix="" 
+          parent="$(arg tf_prefix)tool0"
+          child="neo_gripper_mount_link"
+          rotation="${pi/2}"
+          />
 
-          <xacro:include filename="$(find robotiq_description)/urdf/robotiq_${gripper}_macro.urdf.xacro"/>
-          <xacro:robotiq_gripper name="robotiq_gripper"
-            prefix=""
-            parent="neo_gripper_mount_link"
-            use_mock_hardware="${use_mock}"
-            mock_sensor_commands="${use_mock}"
-            sim_gazebo="${gz}"
-            include_ros2_control="$(arg include_gripper_ros2_control)"
-            >
-            <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
-          </xacro:robotiq_gripper>
+        <xacro:include filename="$(find robotiq_description)/urdf/robotiq_${gripper}_macro.urdf.xacro"/>
+        <xacro:robotiq_gripper name="robotiq_gripper"
+          prefix=""
+          parent="neo_gripper_mount_link"
+          use_mock_hardware="${use_mock}"
+          mock_sensor_commands="${use_mock}"
+          sim_gazebo="${gz}"
+          include_ros2_control="$(arg include_gripper_ros2_control)"
+          >
+          <origin xyz="0 0 0" rpy="0 0 -${pi / 2}"/>
+        </xacro:robotiq_gripper>
 
-        </xacro:if>
+      </xacro:if>
 
-        <xacro:if value="${gripper == 'epick'}">
-          <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
-          <xacro:epick_single_suction_cup parent="$(arg tf_prefix)tool0"
-            use_fake_hardware="${use_mock}"
-            origin_xyz="0 0 0"
-            origin_rpy="0 0 -${pi / 2}"
-            />
-        </xacro:if>
+      <xacro:if value="${gripper == 'epick'}">
+        <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
+        <xacro:epick_single_suction_cup parent="$(arg tf_prefix)tool0"
+          use_fake_hardware="${use_mock}"
+          origin_xyz="0 0 0"
+          origin_rpy="0 0 -${pi / 2}"
+          />
+      </xacro:if>
 
-      </xacro:unless>
+    </xacro:unless>
 
   </xacro:unless>
 

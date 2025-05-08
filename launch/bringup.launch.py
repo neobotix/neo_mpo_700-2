@@ -30,7 +30,6 @@ def execution_stage(context: LaunchContext,
                     arm_type,
                     gripper_type,
                     mock_arm,
-                    initial_joint_controller,
                     robot_ip,
                     controllers_yaml):
 
@@ -60,7 +59,7 @@ def execution_stage(context: LaunchContext,
         " ", 'arm_type:=', arm_typ,
         " ", 'robot_ip:=', "yyy.yyy.yyy.yyy",
         " ", 'gripper_type:=', gripper_typ,
-        " ", 'use_mock_hardware:=', use_mock,  # experimental
+        " ", 'use_mock_hardware:=', use_mock,
         " ", 'use_mock_sensor_commands:=', use_mock,
         " ", 'use_imu:=', imu_enabl,
         " ", 'use_d435:=', d435_enabl,
@@ -315,16 +314,6 @@ def generate_launch_description():
             description="Mock arm and gripper (if available)"
         )
 
-    declare_initial_joint_controller_cmd = DeclareLaunchArgument(
-            'initial_joint_controller',
-            default_value='scaled_joint_trajectory_controller',
-            choices=[
-                'scaled_joint_trajectory_controller',
-                'joint_trajectory_controller',
-            ],
-            description='Initially loaded robot controller.'
-        )
-
     declare_robot_ip_cmd = DeclareLaunchArgument(
             'robot_ip', default_value='192.168.1.102',
             description='IP address of the robot arm.'
@@ -336,10 +325,9 @@ def generate_launch_description():
                 get_package_share_directory('neo_mpo_700-2'),
                 'configs/ur/ur_controllers.yaml'
             ),
-            description='YAML file with the controllers configuration.',
+            description='YAML file with the arm controllers configuration.',
         )
 
-    # Opaque function for configuring URDF, IMU, Realsense and the Arm
     opq_function = OpaqueFunction(
         function=execution_stage, 
         args=[
@@ -351,7 +339,6 @@ def generate_launch_description():
             LaunchConfiguration('arm_type'),
             LaunchConfiguration('gripper_type'),
             LaunchConfiguration('use_mock_arm'),
-            LaunchConfiguration('initial_joint_controller'),
             LaunchConfiguration('robot_ip'),
             LaunchConfiguration('controllers_file')
             ])
@@ -365,7 +352,6 @@ def generate_launch_description():
         declare_arm_type_cmd,
         declare_robotiq_cmd,
         declare_mock_arm_cmd,
-        declare_initial_joint_controller_cmd,
         declare_robot_ip_cmd,
         declare_controllers_file_cmd,
         opq_function
