@@ -19,7 +19,7 @@ from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
 from launch_ros.descriptions import ParameterValue
 from launch.launch_context import LaunchContext
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import UnlessCondition
 
 def execution_stage(context: LaunchContext,
                     robot_namespace,
@@ -300,7 +300,7 @@ def generate_launch_description():
     declare_arm_type_cmd = DeclareLaunchArgument(
             'arm_type', default_value='',
             choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66', 'cs66'],
-            description='Arm Types\n\t'        
+            description='Arm Types\n\t'
         )
 
     declare_robotiq_cmd = DeclareLaunchArgument(
