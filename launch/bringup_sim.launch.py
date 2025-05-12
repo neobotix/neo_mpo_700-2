@@ -22,7 +22,7 @@ def execution_stage(context: LaunchContext,
                     d435_enable,
                     scanner_type,
                     gripper_type,
-                    docking_adapter):    
+                    docking_adapter):
 
     launch_actions = []
 
@@ -69,7 +69,7 @@ def generate_launch_description():
     declare_arm_type_cmd = DeclareLaunchArgument(
             'arm_type', default_value='',
             choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66', 'cs66'],
-            description='Arm Types\n\t'        
+            description='Arm Types\n\t'
         )
 
     declare_imu_cmd = DeclareLaunchArgument(
