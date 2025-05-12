@@ -38,7 +38,7 @@ def execution_stage(
 
     nav2_launch_file_dir = os.path.join(get_package_share_directory('neo_nav2_bringup'), 'launch')
 
-    # Start navigation and push namespace if and only if the multi robot scenario is set to true. 
+    # Start navigation and push namespace if and only if the multi robot scenario is set to true.
     start_navigation = GroupAction([
         PushRosNamespace(
             condition=IfCondition(use_multi_robots),
@@ -119,35 +119,35 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('use_rviz')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
-            'use_sim_time', default_value='false',
+            'use_sim_time', default_value='False',
             description='Use simulation clock if true'
         )
-    
+
     declare_autostart_cmd = DeclareLaunchArgument(
-            'autostart', default_value='true',
+            'autostart', default_value='True',
             description='Automatically start the nav2 stack'
         )
-    
+
     declare_namespace_cmd = DeclareLaunchArgument(
             'robot_namespace', default_value='',
             description='Top-level namespace'
         )
-    
+
     declare_use_multi_robots_cmd = DeclareLaunchArgument(
             'use_multi_robots', default_value='False',
             description='Use multi robots'
         )
-    
+
     declare_head_robot_cmd = DeclareLaunchArgument(
             'head_robot', default_value='False',
             description='Head robot'
         )
-    
+
     declare_use_amcl_cmd = DeclareLaunchArgument(
             'use_amcl', default_value='False',
             description='Use AMCL'
         )
-    
+
     declare_map_cmd = DeclareLaunchArgument(
             'map', default_value=os.path.join(
                 get_package_share_directory('neo_mpo_700-2'),
@@ -157,18 +157,18 @@ def generate_launch_description():
                 'neo_workshop.yaml'),
             description='Full path to map file to load'
         )
-    
+
     declare_nav2_param_file_cmd = DeclareLaunchArgument(
             'nav2_params_file', default_value="",
             description='Full path to the Nav2 parameters file to load.\n'
                         '\tLeave empty to use the default file based on the robot type'
         )
-    
+
     declare_use_rviz_cmd = DeclareLaunchArgument(
             'use_rviz', default_value='True',
             description='Launch RViz for visualization'
         )
-    
+
     # Adding all the necessary launch description actions
     launch_desc.add_action(declare_use_sim_time_cmd)
     launch_desc.add_action(declare_autostart_cmd)
