@@ -131,9 +131,10 @@ def execution_stage(context: LaunchContext,
 
     # 4. Laser
     scanner_model = scanner_typ.split('_')[1] if '_' in scanner_typ else scanner_typ
+    scanner_vendor = scanner_typ.split('_')[0] if '_' in scanner_typ else scanner_typ
     laser = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                os.path.join(neo_mpo_700, f'configs/lidar/{scanner_model}', f'{scanner_typ}.launch.py')
+                os.path.join(neo_mpo_700, f'configs/lidar/{scanner_vendor}/{scanner_model}', f'{scanner_typ}.launch.py')
             ),
             launch_arguments={
                 'namespace': robot_namespace
