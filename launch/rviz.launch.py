@@ -130,8 +130,8 @@ def generate_launch_description():
         )
 
     declare_use_display_mode_cmd = DeclareLaunchArgument(
-            'display_mode', default_value='False',
-            description='Enable robot and joint state publishers if true (True/False)'
+            'display_mode', default_value='True',
+            description='Disable robot and joint state publishers if true (True/False)'
         )
 
     declare_rviz_cfg_arg = DeclareLaunchArgument(
