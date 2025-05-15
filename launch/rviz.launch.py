@@ -117,7 +117,7 @@ def generate_launch_description():
             choices=['sick_s300', 'sick_microscan3'],
             description='Type of laser scanner to use\n\t'
         )
-    
+
     declare_gripper_type_cmd = DeclareLaunchArgument(
             'gripper_type', default_value='',
             choices=['', '2f_140', '2f_85', 'epick'],
@@ -137,8 +137,8 @@ def generate_launch_description():
     declare_rviz_cfg_arg = DeclareLaunchArgument(
             'rviz_config',
             default_value=os.path.join(
-            get_package_share_directory('mp_rviz'),
-            'rviz', 'robot_description_rviz.rviz'),
+            get_package_share_directory('neo_mpo_700-2'),
+            'configs', 'rviz', 'robot_description_rviz.rviz'),
             description='Full path to an RViz config file'
         )
 

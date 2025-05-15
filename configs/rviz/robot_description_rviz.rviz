@@ -79,36 +79,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        cabinet_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_inner_finger:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_inner_finger_pad:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_inner_knuckle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_outer_finger:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_outer_knuckle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         lidar_1_link:
           Alpha: 1
           Show Axes: false
@@ -155,104 +125,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         mpo_700_wheel_front_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        neo_gripper_mount_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_inner_finger:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_inner_finger_pad:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_inner_knuckle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_outer_finger:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        right_outer_knuckle:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robotiq_140_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        robotiq_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10base:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10base_link_inertia:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10flange:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10forearm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10ft_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10shoulder_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10tool0:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        ur10upper_arm_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10wrist_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10wrist_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur10wrist_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        ur_to_robotiq_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -276,18 +148,6 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        cabinet_link:
-          Value: true
-        left_inner_finger:
-          Value: true
-        left_inner_finger_pad:
-          Value: true
-        left_inner_knuckle:
-          Value: true
-        left_outer_finger:
-          Value: true
-        left_outer_knuckle:
-          Value: true
         lidar_1_link:
           Value: true
         lidar_2_link:
@@ -308,49 +168,7 @@ Visualization Manager:
           Value: true
         mpo_700_wheel_front_right_link:
           Value: true
-        neo_gripper_mount_link:
-          Value: true
         odom:
-          Value: true
-        right_inner_finger:
-          Value: true
-        right_inner_finger_pad:
-          Value: true
-        right_inner_knuckle:
-          Value: true
-        right_outer_finger:
-          Value: true
-        right_outer_knuckle:
-          Value: true
-        robotiq_140_base_link:
-          Value: true
-        robotiq_base_link:
-          Value: true
-        ur10base:
-          Value: true
-        ur10base_link:
-          Value: true
-        ur10base_link_inertia:
-          Value: true
-        ur10flange:
-          Value: true
-        ur10forearm_link:
-          Value: true
-        ur10ft_frame:
-          Value: true
-        ur10shoulder_link:
-          Value: true
-        ur10tool0:
-          Value: true
-        ur10upper_arm_link:
-          Value: true
-        ur10wrist_1_link:
-          Value: true
-        ur10wrist_2_link:
-          Value: true
-        ur10wrist_3_link:
-          Value: true
-        ur_to_robotiq_link:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -373,39 +191,6 @@ Visualization Manager:
               mpo_700_caster_front_right_link:
                 mpo_700_wheel_front_right_link:
                   {}
-            cabinet_link:
-              ur10base_link:
-                ur10base:
-                  {}
-                ur10base_link_inertia:
-                  ur10shoulder_link:
-                    ur10upper_arm_link:
-                      ur10forearm_link:
-                        ur10wrist_1_link:
-                          ur10wrist_2_link:
-                            ur10wrist_3_link:
-                              ur10flange:
-                                ur10tool0:
-                                  ur_to_robotiq_link:
-                                    neo_gripper_mount_link:
-                                      robotiq_base_link:
-                                        robotiq_140_base_link:
-                                          left_inner_knuckle:
-                                            {}
-                                          left_outer_knuckle:
-                                            left_outer_finger:
-                                              left_inner_finger:
-                                                left_inner_finger_pad:
-                                                  {}
-                                          right_inner_knuckle:
-                                            {}
-                                          right_outer_knuckle:
-                                            right_outer_finger:
-                                              right_inner_finger:
-                                                right_inner_finger_pad:
-                                                  {}
-                              ur10ft_frame:
-                                {}
             lidar_1_link:
               {}
             lidar_2_link:
