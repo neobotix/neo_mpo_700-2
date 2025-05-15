@@ -84,7 +84,6 @@ def execution_stage(context: LaunchContext,
     return launch_actions
 
 def generate_launch_description():
-    ld = LaunchDescription()
 
     # Declare launch arguments with default values and descriptions
     declare_use_sim_time_arg = DeclareLaunchArgument(
