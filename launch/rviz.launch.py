@@ -99,7 +99,7 @@ def generate_launch_description():
     declare_arm_type_cmd = DeclareLaunchArgument(
             'arm_type', default_value='',
             choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66', 'cs66'],
-            description='Arm Types - Supported Robots [mpo-700, mpo-500]\n\t'
+            description='Arm Types'
         )
 
     declare_use_imu_cmd = DeclareLaunchArgument(
@@ -109,8 +109,7 @@ def generate_launch_description():
 
     declare_realsense_cmd = DeclareLaunchArgument(
             'use_d435', default_value='false',
-            description='Enable Intel RealSense D435 camera if true\n'
-                        '\tSupported Robots [mpo-700, mpo-500, mp-400]'
+            description='Enable Intel RealSense D435 camera if true'
         )
     
     declare_scanner_type_cmd = DeclareLaunchArgument(
@@ -122,13 +121,12 @@ def generate_launch_description():
     declare_gripper_type_cmd = DeclareLaunchArgument(
             'gripper_type', default_value='',
             choices=['', '2f_140', '2f_85', 'epick'],
-            description='Gripper Types - Supported Robots [mpo-700, mpo-500]\n\t'
+            description='Gripper Types'
         )
 
     declare_use_docking_adapter_cmd = DeclareLaunchArgument(
             'use_docking_adapter', default_value='false',
-            description='Enable docking adapter if true\n'
-                        '\tSupported Robots [mpo-700]'
+            description='Enable docking adapter if true'
         )
 
     declare_use_display_mode_cmd = DeclareLaunchArgument(
