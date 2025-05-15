@@ -103,12 +103,12 @@ def generate_launch_description():
         )
 
     declare_use_imu_cmd = DeclareLaunchArgument(
-            'use_imu', default_value='false',
+            'use_imu', default_value='False',
             description='Enable IMU sensors if true'
         )
 
     declare_realsense_cmd = DeclareLaunchArgument(
-            'use_d435', default_value='false',
+            'use_d435', default_value='False',
             description='Enable Intel RealSense D435 camera if true'
         )
     
@@ -125,7 +125,7 @@ def generate_launch_description():
         )
 
     declare_use_docking_adapter_cmd = DeclareLaunchArgument(
-            'use_docking_adapter', default_value='false',
+            'use_docking_adapter', default_value='False',
             description='Enable docking adapter if true'
         )
 
