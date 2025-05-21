@@ -15,7 +15,7 @@ from launch.actions import (
   OpaqueFunction
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, Command
+from launch.substitutions import LaunchConfiguration, Command, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.descriptions import ParameterValue
 from launch.launch_context import LaunchContext
@@ -26,6 +26,7 @@ def execution_stage(context: LaunchContext,
                     imu_enable,
                     d435_enable,
                     scanner_type,
+                    enable_scanners,
                     docking_adapter,
                     arm_type,
                     gripper_type,
@@ -42,6 +43,7 @@ def execution_stage(context: LaunchContext,
     gripper_typ = str(gripper_type.perform(context))
     use_docking_adapter = str(docking_adapter.perform(context))
     use_mock = str(mock_arm.perform(context))
+    enable_scanner = str(enable_scanners.perform(context))
 
     launch_actions = []
 
@@ -139,7 +141,9 @@ def execution_stage(context: LaunchContext,
             launch_arguments={
                 'namespace': robot_namespace
             }.items(),
-            condition=UnlessCondition(mock_arm)
+            condition=UnlessCondition(PythonExpression([
+                mock_arm, ' and ', enable_scanner
+            ]))
         )
 
     launch_actions.append(laser)
@@ -252,8 +256,9 @@ def execution_stage(context: LaunchContext,
             namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
-            condition=UnlessCondition(mock_arm)
-            )
+            condition=UnlessCondition(PythonExpression([
+                mock_arm, ' and ', enable_scanner
+            ]))            )
 
     relay_topic_lidar2 = Node(
             package='topic_tools',
@@ -262,8 +267,9 @@ def execution_stage(context: LaunchContext,
             namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
-            condition=UnlessCondition(mock_arm)
-            )
+            condition=UnlessCondition(PythonExpression([
+                mock_arm, ' and ', enable_scanner
+            ]))            )
 
     launch_actions.append(relay_topic_lidar1)
     launch_actions.append(relay_topic_lidar2)
@@ -291,6 +297,11 @@ def generate_launch_description():
             'scanner_type', default_value='sick_s300',
             choices=['', 'sick_s300', 'sick_microscan3'],
             description='Type of laser scanner to use'
+        )
+
+    declare_enable_scanner_type_cmd = DeclareLaunchArgument(
+            'enable_scanner', default_value='True',
+            description='Enable Realsense - Options: True/False'
         )
 
     declare_use_docking_adapter_cmd = DeclareLaunchArgument(
@@ -336,6 +347,7 @@ def generate_launch_description():
             LaunchConfiguration('imu_enable'),
             LaunchConfiguration('d435_enable'),
             LaunchConfiguration('scanner_type'),
+            LaunchConfiguration('enable_scanners'),
             LaunchConfiguration('use_docking_adapter'),
             LaunchConfiguration('arm_type'),
             LaunchConfiguration('gripper_type'),
