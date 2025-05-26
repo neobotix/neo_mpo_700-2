@@ -26,7 +26,7 @@ def execution_stage(context: LaunchContext,
                     imu_enable,
                     d435_enable,
                     scanner_type,
-                    enable_scanners,
+                    disable_scanners,
                     docking_adapter,
                     arm_type,
                     gripper_type,
@@ -43,7 +43,7 @@ def execution_stage(context: LaunchContext,
     gripper_typ = str(gripper_type.perform(context))
     use_docking_adapter = str(docking_adapter.perform(context))
     use_mock = str(mock_arm.perform(context))
-    enable_scanner = str(enable_scanners.perform(context))
+    disable_scanner = str(disable_scanners.perform(context))
 
     launch_actions = []
 
@@ -66,6 +66,7 @@ def execution_stage(context: LaunchContext,
         " ", 'use_imu:=', imu_enabl,
         " ", 'use_d435:=', d435_enabl,
         " ", 'scanner_type:=', scanner_typ,
+        " ", 'disable_scanners:=', disable_scanner,
         " ", 'use_docking_adapter:=', use_docking_adapter,
     ]
     if arm_typ != "":
@@ -142,7 +143,7 @@ def execution_stage(context: LaunchContext,
                 'namespace': robot_namespace
             }.items(),
             condition=UnlessCondition(PythonExpression([
-                mock_arm, ' and ', enable_scanner
+                mock_arm, ' or ', disable_scanner
             ]))
         )
 
@@ -257,7 +258,7 @@ def execution_stage(context: LaunchContext,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(PythonExpression([
-                mock_arm, ' and ', enable_scanner
+                mock_arm, ' or ', disable_scanner
             ]))            )
 
     relay_topic_lidar2 = Node(
@@ -268,7 +269,7 @@ def execution_stage(context: LaunchContext,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(PythonExpression([
-                mock_arm, ' and ', enable_scanner
+                mock_arm, ' or ', disable_scanner
             ]))            )
 
     launch_actions.append(relay_topic_lidar1)
@@ -299,9 +300,9 @@ def generate_launch_description():
             description='Type of laser scanner to use'
         )
 
-    declare_enable_scanner_type_cmd = DeclareLaunchArgument(
-            'enable_scanner', default_value='True',
-            description='Enable Realsense - Options: True/False'
+    declare_disable_scanner_type_cmd = DeclareLaunchArgument(
+            'disable_scanners', default_value='False',
+            description='Disable Scanner - Options: True/False'
         )
 
     declare_use_docking_adapter_cmd = DeclareLaunchArgument(
@@ -347,7 +348,7 @@ def generate_launch_description():
             LaunchConfiguration('imu_enable'),
             LaunchConfiguration('d435_enable'),
             LaunchConfiguration('scanner_type'),
-            LaunchConfiguration('enable_scanners'),
+            LaunchConfiguration('disable_scanners'),
             LaunchConfiguration('use_docking_adapter'),
             LaunchConfiguration('arm_type'),
             LaunchConfiguration('gripper_type'),
@@ -361,6 +362,7 @@ def generate_launch_description():
         declare_imu_cmd,
         declare_realsense_cmd,
         declare_scanner_type_cmd,
+        declare_disable_scanner_type_cmd,
         declare_use_docking_adapter_cmd,
         declare_arm_type_cmd,
         declare_robotiq_cmd,

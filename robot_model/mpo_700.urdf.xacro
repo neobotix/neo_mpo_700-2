@@ -12,6 +12,7 @@ Contributor: Adarsh Karan K P
   <xacro:arg name="use_d435" default="false"/>
   <xacro:arg name="scanner_type" default="sick_s300"/>
   <xacro:arg name="use_docking_adapter" default="false"/>
+  <xacro:arg name="disable_scanners" default="false"/>
 
   <!-- Manipulator Arguments-->
   <xacro:arg name="arm_type" default=""/>
@@ -31,6 +32,7 @@ Contributor: Adarsh Karan K P
   <xacro:property name="imu" value="$(arg use_imu)"/>
   <xacro:property name="d435" value="$(arg use_d435)"/>
   <xacro:property name="scanner" value="$(arg scanner_type)"/>
+  <xacro:property name="disable_scanner" value="$(arg disable_scanners)"/>
   <xacro:property name="scanner_height" value="0"/>
   <xacro:property name="gripper" value="$(arg gripper_type)"/>
   <xacro:property name="docking_adapter" value="$(arg use_docking_adapter)"/>
@@ -53,30 +55,34 @@ Contributor: Adarsh Karan K P
   <xacro:mpo_700_body/>
 
   <!-- Laser Scanners -->
-  <xacro:if value="${scanner == 'sick_s300'}">
-    <!--https://neobotix-docs.de/hardware/en/platforms/mpo-700/mechanical.html-->
-    <xacro:property name="scanner_height" value="0.223"/>
-    <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_s300_macro.xacro"/>
+  <xacro:if value="${disable_scanner == False}">
+
+    <xacro:if value="${scanner == 'sick_s300'}">
+      <!--https://neobotix-docs.de/hardware/en/platforms/mpo-700/mechanical.html-->
+      <xacro:property name="scanner_height" value="0.223"/>
+      <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_s300_macro.xacro"/>
+    </xacro:if>
+
+    <xacro:if value="${scanner == 'sick_microscan3'}">
+      <xacro:property name="scanner_height" value="0.223"/>
+      <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_microscan3_macro.xacro"/>
+    </xacro:if>
+
+    <xacro:sick_laser_scanner 
+      name="lidar_1" 
+      parent="base_link"
+      >
+      <origin rpy="3.14 0 0.79" xyz="0.338 0.288 ${scanner_height}"/>
+    </xacro:sick_laser_scanner>
+
+    <xacro:sick_laser_scanner
+      name="lidar_2" 
+      parent="base_link"
+      >
+      <origin rpy="3.14 0 3.93" xyz="-0.338 -0.288 ${scanner_height}"/>
+    </xacro:sick_laser_scanner>
+
   </xacro:if>
-
-  <xacro:if value="${scanner == 'sick_microscan3'}">
-    <xacro:property name="scanner_height" value="0.223"/>
-    <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/sick_microscan3_macro.xacro"/>
-  </xacro:if>
-
-  <xacro:sick_laser_scanner 
-    name="lidar_1" 
-    parent="base_link"
-    >
-    <origin rpy="3.14 0 0.79" xyz="0.338 0.288 ${scanner_height}"/>
-  </xacro:sick_laser_scanner>
-
-  <xacro:sick_laser_scanner
-    name="lidar_2" 
-    parent="base_link"
-    >
-    <origin rpy="3.14 0 3.93" xyz="-0.338 -0.288 ${scanner_height}"/>
-  </xacro:sick_laser_scanner>
 
   <!-- Using IMU -->
   <xacro:if value="${imu == True}">
