@@ -59,7 +59,7 @@ def execution_stage(context: LaunchContext,
     xacro_args = [
         "xacro", " ", urdf,
         " ", 'arm_type:=', arm_typ,
-        " ", 'robot_ip:=', "yyy.yyy.yyy.yyy",
+        " ", 'robot_ip:=', robot_ip,
         " ", 'gripper_type:=', gripper_typ,
         " ", 'use_mock_hardware:=', use_mock,
         " ", 'use_mock_sensor_commands:=', use_mock,
@@ -187,9 +187,11 @@ def execution_stage(context: LaunchContext,
         arm_typ == "ur5e" or
         arm_typ == "ur10e"):
 
+        # Selecting the controller
         initial_joint_controller = "scaled_joint_trajectory_controller"
-        if use_mock:
+        if use_mock == True:
             initial_joint_controller = "joint_trajectory_controller"
+
         ur_arm = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
                     os.path.join(neo_mpo_700,
@@ -200,8 +202,8 @@ def execution_stage(context: LaunchContext,
                     'ur_type': arm_typ,
                     'robot_ip': robot_ip,
                     'tf_prefix': arm_typ,
-                    'use_mock_hardware': use_mock,
-                    'mock_sensor_commands': use_mock,
+                    'use_mock_hardware': mock_arm,
+                    'mock_sensor_commands': mock_arm,
                     'initial_joint_controller': initial_joint_controller,
                     'controllers_file': controllers_yaml,
                 }.items()
