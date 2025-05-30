@@ -252,28 +252,38 @@ def execution_stage(context: LaunchContext,
     # Relaying lidar data to /scan topic
     relay_topic_lidar1 = Node(
             package='topic_tools',
-            executable = 'relay',
-            name='relay',
+            executable='relay',
+            name='relay_lidar1',
             namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(PythonExpression([
                 mock_arm, ' or ', disable_scanner
-            ]))            )
+            ])))
 
     relay_topic_lidar2 = Node(
             package='topic_tools',
-            executable = 'relay',
-            name='relay',
+            executable='relay',
+            name='relay_lidar2',
             namespace =  robot_namespace,
             output='screen',
             parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
             condition=UnlessCondition(PythonExpression([
                 mock_arm, ' or ', disable_scanner
-            ]))            )
+            ])))
+
+    relay_topic_joint_states = Node(
+        package='topic_tools',
+        executable='relay',
+        name='relay_joint_states',
+        output='screen',
+        parameters=[{'input_topic': "drive/joint_states",'output_topic': "joint_states"}],
+        condition=UnlessCondition(mock_arm)
+    )
 
     launch_actions.append(relay_topic_lidar1)
     launch_actions.append(relay_topic_lidar2)
+    launch_actions.append(relay_topic_joint_states)
 
     return launch_actions
 

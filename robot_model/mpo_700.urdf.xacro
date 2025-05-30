@@ -46,7 +46,7 @@ Contributor: Adarsh Karan K P
   <xacro:property name="ODM_joint_type" value="revolute"/>
 
   <!-- Additionally for simulation, the joint type of the wheels needs to be fixed. -->
-  <xacro:if value="${gz == True or arm != ''}">
+  <xacro:if value="${gz == True}">
     <xacro:property name="ODM_joint_type" value="fixed"/>
   </xacro:if>
 
