@@ -279,7 +279,7 @@ def execution_stage(context: LaunchContext,
         executable='relay',
         name='relay_joint_states',
         output='screen',
-        parameters=[{'input_topic': "drive/joint_states",'output_topic': "joint_states"}],
+        parameters=[{'input_topic': "drives/joint_states",'output_topic': "joint_states"}],
         condition=UnlessCondition(mock_arm)
     )
 
