@@ -10,7 +10,15 @@ Contributor: Adarsh Karan K P
   <xacro:include filename="$(find neo_mpo_700-2)/robot_model/xacros/mpo_700_wheel_macro.xacro"/>
 
   <xacro:macro name="mpo_700_body">
-      
+
+    <!-- Required for visualizing the left ODM's outwards during the start -->
+    <xacro:property name="angle_comp" value="1"/> 
+    <xacro:property name="disp_comp" value="-1"/> 
+    <xacro:if value="${ODM_joint_type == 'fixed'}">
+      <xacro:property name="angle_comp" value="0"/> 
+      <xacro:property name="disp_comp" value="1"/> 
+    </xacro:if>
+
     <link name="base_link"/>
     
     <link name="base_footprint">
@@ -53,7 +61,7 @@ Contributor: Adarsh Karan K P
       caster_prefix="mpo_700_caster_front_left" 
       parent_link="base_footprint"
       caster_joint_type="${ODM_joint_type}"
-      link_origin_rpy="0 0 0"
+      link_origin_rpy="0 0 ${3.14 * angle_comp}"
       >
       <origin rpy="0 0 0" xyz="0.24 0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
@@ -71,7 +79,7 @@ Contributor: Adarsh Karan K P
       caster_prefix="mpo_700_caster_back_left"
       parent_link="base_footprint"
       caster_joint_type="${ODM_joint_type}"
-      link_origin_rpy="0 0 0"
+      link_origin_rpy="0 0 ${3.14 * angle_comp}"
       >
       <origin rpy="0 0 0" xyz="-0.24 0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
@@ -91,7 +99,7 @@ Contributor: Adarsh Karan K P
       parent_prefix="mpo_700_caster_front_left" 
       wheel_joint_type="${ODM_joint_type}"
       >
-      <origin rpy="0 0 0" xyz="0.0 0.045 -0.12"/>
+      <origin rpy="0 0 ${3.14 * angle_comp}" xyz="0.0 ${0.045 * disp_comp} -0.12"/>
     </xacro:mpo_700_wheel>
 
     <xacro:mpo_700_wheel 
@@ -107,7 +115,7 @@ Contributor: Adarsh Karan K P
       parent_prefix="mpo_700_caster_back_left"
       wheel_joint_type="${ODM_joint_type}"
       >
-      <origin rpy="0 0 0" xyz="0.0 0.045 -0.12"/>
+      <origin rpy="0 0 ${3.14 * angle_comp}" xyz="0.0 ${0.045 * disp_comp} -0.12"/>
     </xacro:mpo_700_wheel>
 
     <xacro:mpo_700_wheel
