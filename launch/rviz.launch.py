@@ -29,6 +29,7 @@ def execution_stage(context: LaunchContext,
                     gripper_type,
                     docking_adapter,
                     display_mode,
+                    ur_dc,
                     rviz_config):
 
     launch_actions = []
@@ -37,6 +38,7 @@ def execution_stage(context: LaunchContext,
 
     # Resolve launch arguments
     arm_typ = str(arm_type.perform(context))
+    use_ur_dc = ur_dc.perform(context)
     imu_enabl = str(imu_enable.perform(context))
     d435_enabl = str(d435_enable.perform(context))
     scanner_typ = str(scanner_type.perform(context))
@@ -56,6 +58,7 @@ def execution_stage(context: LaunchContext,
         "xacro", " ", urdf,
         " ", 'use_gz:=true',
         " ", 'arm_type:=', arm_typ,
+        " ", 'use_ur_dc:=', use_ur_dc,
         " ", 'force_abs_path:=true',
         " ", 'gripper_type:=', gripper_typ,
         " ", 'use_imu:=', imu_enabl,
@@ -134,6 +137,11 @@ def generate_launch_description():
             description='Disable robot and joint state publishers if true (True/False)'
         )
 
+    declare_ur_pwr_variant_cmd = DeclareLaunchArgument(
+            'use_ur_dc', default_value='False',
+            description='Set this argument to True if you have an UR arm with DC variant'
+        )
+
     declare_rviz_cfg_arg = DeclareLaunchArgument(
             'rviz_config',
             default_value=os.path.join(
@@ -154,6 +162,7 @@ def generate_launch_description():
             LaunchConfiguration('gripper_type'),
             LaunchConfiguration('use_docking_adapter'),
             LaunchConfiguration('display_mode'),
+            LaunchConfiguration('use_ur_dc'),
             LaunchConfiguration('rviz_config')
         ])
 
@@ -167,6 +176,7 @@ def generate_launch_description():
         declare_gripper_type_cmd,
         declare_use_docking_adapter_cmd,
         declare_use_display_mode_cmd,
+        declare_ur_pwr_variant_cmd,
         declare_rviz_cfg_arg,
         opq_function
     ])

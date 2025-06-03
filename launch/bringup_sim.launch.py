@@ -18,6 +18,7 @@ def execution_stage(context: LaunchContext,
                     robot_namespace,
                     world,
                     arm_type,
+                    ur_dc,
                     imu_enable,
                     d435_enable,
                     scanner_type,
@@ -39,6 +40,7 @@ def execution_stage(context: LaunchContext,
             'robot_type': robot_type,
             'world': world_name,
             'arm_type': arm_type,
+            'use_ur_dc': ur_dc,
             'imu_enable': imu_enable,
             'd435_enable': d435_enable,
             'scanner_type': scanner_type,
@@ -70,6 +72,11 @@ def generate_launch_description():
             'arm_type', default_value='',
             choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66', 'cs66'],
             description='Arm Types\n\t'
+        )
+
+    declare_ur_pwr_variant_cmd = DeclareLaunchArgument(
+            'use_ur_dc', default_value='False',
+            description='Set this argument to True if you have an UR arm with DC variant'
         )
 
     declare_imu_cmd = DeclareLaunchArgument(
@@ -105,6 +112,7 @@ def generate_launch_description():
             LaunchConfiguration('robot_namespace'),
             LaunchConfiguration('world'),
             LaunchConfiguration('arm_type'),
+            LaunchConfiguration('use_ur_dc'),
             LaunchConfiguration('imu_enable'),
             LaunchConfiguration('d435_enable'),
             LaunchConfiguration('scanner_type'),
@@ -116,6 +124,7 @@ def generate_launch_description():
         declare_namespace_cmd,
         declare_world_name_arg,
         declare_arm_type_cmd,
+        declare_ur_pwr_variant_cmd,
         declare_imu_cmd,
         declare_realsense_cmd,
         declare_scanner_type_cmd,
