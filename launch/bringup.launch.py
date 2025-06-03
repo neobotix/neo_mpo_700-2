@@ -29,6 +29,7 @@ def execution_stage(context: LaunchContext,
                     disable_scanners,
                     docking_adapter,
                     arm_type,
+                    ur_dc,
                     gripper_type,
                     mock_arm,
                     robot_ip,
@@ -40,6 +41,7 @@ def execution_stage(context: LaunchContext,
     d435_enabl = str(d435_enable.perform(context))
     scanner_typ = str(scanner_type.perform(context))
     arm_typ = str(arm_type.perform(context))
+    use_ur_dc = str(ur_dc.perform(context))
     gripper_typ = str(gripper_type.perform(context))
     use_docking_adapter = str(docking_adapter.perform(context))
     use_mock = str(mock_arm.perform(context))
@@ -59,6 +61,7 @@ def execution_stage(context: LaunchContext,
     xacro_args = [
         "xacro", " ", urdf,
         " ", 'arm_type:=', arm_typ,
+        " ", 'use_ur_dc:=', use_ur_dc,
         " ", 'robot_ip:=', robot_ip,
         " ", 'gripper_type:=', gripper_typ,
         " ", 'use_mock_hardware:=', use_mock,
@@ -328,6 +331,11 @@ def generate_launch_description():
             description='Arm Types\n\t'
         )
 
+    declare_ur_pwr_variant_cmd = DeclareLaunchArgument(
+            'use_ur_dc', default_value='False',
+            description='Set this argument to True if you have an UR arm with DC variant'
+        )
+
     declare_robotiq_cmd = DeclareLaunchArgument(
             'gripper_type', default_value='',
             choices=['', '2f_140', '2f_85', 'epick'],
@@ -363,6 +371,7 @@ def generate_launch_description():
             LaunchConfiguration('disable_scanners'),
             LaunchConfiguration('use_docking_adapter'),
             LaunchConfiguration('arm_type'),
+            LaunchConfiguration('use_ur_dc'),
             LaunchConfiguration('gripper_type'),
             LaunchConfiguration('use_mock_arm'),
             LaunchConfiguration('robot_ip'),
@@ -377,6 +386,7 @@ def generate_launch_description():
         declare_disable_scanner_type_cmd,
         declare_use_docking_adapter_cmd,
         declare_arm_type_cmd,
+        declare_ur_pwr_variant_cmd,
         declare_robotiq_cmd,
         declare_mock_arm_cmd,
         declare_robot_ip_cmd,
