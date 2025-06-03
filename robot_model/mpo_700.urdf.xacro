@@ -144,7 +144,7 @@ Contributor: Adarsh Karan K P
       </xacro:if>
 
       <xacro:if value="${ur_dc == True}">
-        <xacro:property name="arm_height" value="0.307" />
+        <xacro:property name="arm_height" value="0.265" />
       </xacro:if>
 
       <!-- Include the UR arm -->
