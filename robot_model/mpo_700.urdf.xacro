@@ -18,6 +18,7 @@ Contributor: Adarsh Karan K P
   <xacro:arg name="arm_type" default=""/>
   <xacro:arg name="arm_parent" default="cabinet_link"/>
   <xacro:arg name="gripper_type" default=""/>
+  <xacro:arg name="use_ur_dc" default="false"/>
   <xacro:arg name="force_abs_paths" default="false"/>
   <xacro:arg name="simulation_controllers" default=""/>
   <xacro:arg name="use_mock_hardware" default="false"/>
@@ -35,6 +36,7 @@ Contributor: Adarsh Karan K P
   <xacro:property name="disable_scanner" value="$(arg disable_scanners)"/>
   <xacro:property name="scanner_height" value="0"/>
   <xacro:property name="gripper" value="$(arg gripper_type)"/>
+  <xacro:property name="ur_dc" value="$(arg use_ur_dc)"/>
   <xacro:property name="docking_adapter" value="$(arg use_docking_adapter)"/>
   <xacro:property name="use_mock" value="$(arg use_mock_hardware)"/>
   
@@ -135,11 +137,23 @@ Contributor: Adarsh Karan K P
 
     <!-- Universal Robotics (UR) Arms-->
     <xacro:if value="${arm == 'ur5' or arm == 'ur10' or arm == 'ur5e' or arm == 'ur10e'}">
+      
+      <!-- Different height for AC arm-->
+      <xacro:if value="${ur_dc == False}">
+        <xacro:property name="arm_height" value="0.416" />
+      </xacro:if>
+
+      <xacro:if value="${ur_dc == True}">
+        <xacro:property name="arm_height" value="0.307" />
+      </xacro:if>
+
+      <!-- Include the UR arm -->
       <xacro:include filename="$(find mp_components)/urdf/arm/ur_arm.urdf.xacro"/>
     </xacro:if>
 
     <!-- Elite Arms-->
     <xacro:if value="${arm == 'ec66' or arm == 'cs66'}">
+      <xacro:property name="arm_height" value="0.376" />
       <xacro:include filename="$(find mp_components)/urdf/arm/elite_arm.urdf.xacro"/>
     </xacro:if>
 
