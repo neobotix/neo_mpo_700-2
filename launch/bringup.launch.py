@@ -192,7 +192,8 @@ def execution_stage(context: LaunchContext,
 
         # Selecting the controller
         initial_joint_controller = "scaled_joint_trajectory_controller"
-        if use_mock == True:
+
+        if use_mock == 'True':
             initial_joint_controller = "joint_trajectory_controller"
 
         ur_arm = IncludeLaunchDescription(
