@@ -32,6 +32,7 @@ def execution_stage(context: LaunchContext,
                     ur_dc,
                     gripper_type,
                     mock_arm,
+                    initial_controller_arm,
                     robot_ip,
                     controllers_yaml):
 
@@ -45,6 +46,7 @@ def execution_stage(context: LaunchContext,
     gripper_typ = str(gripper_type.perform(context))
     use_docking_adapter = str(docking_adapter.perform(context))
     use_mock = str(mock_arm.perform(context))
+    initial_controller_arm_name = str(initial_controller_arm.perform(context))
     disable_scanner = str(disable_scanners.perform(context))
 
     launch_actions = []
@@ -190,11 +192,9 @@ def execution_stage(context: LaunchContext,
         arm_typ == "ur5e" or
         arm_typ == "ur10e"):
 
-        # Selecting the controller
-        initial_joint_controller = "scaled_joint_trajectory_controller"
-
+        # Mock hardware supports only `joint_trajectory_controller`
         if use_mock == 'True':
-            initial_joint_controller = "joint_trajectory_controller"
+            initial_controller_arm_name = "joint_trajectory_controller"
 
         ur_arm = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
@@ -208,7 +208,7 @@ def execution_stage(context: LaunchContext,
                     'tf_prefix': arm_typ,
                     'use_mock_hardware': mock_arm,
                     'mock_sensor_commands': mock_arm,
-                    'initial_joint_controller': initial_joint_controller,
+                    'initial_joint_controller': initial_controller_arm_name,
                     'controllers_file': controllers_yaml,
                 }.items()
             )
@@ -348,6 +348,12 @@ def generate_launch_description():
             description="Mock arm and gripper (if available)"
         )
 
+    declare_initial_controller_arm_cmd = DeclareLaunchArgument(
+            'initial_controller_arm', default_value='scaled_joint_trajectory_controller',
+            choices=['', 'joint_trajectory_controller', 'scaled_joint_trajectory_controller'],
+            description='Initial controller for the arm\n\t'
+        )
+
     declare_robot_ip_cmd = DeclareLaunchArgument(
             'robot_ip', default_value='192.168.1.102',
             description='IP address of the robot arm.'
@@ -375,6 +381,7 @@ def generate_launch_description():
             LaunchConfiguration('use_ur_dc'),
             LaunchConfiguration('gripper_type'),
             LaunchConfiguration('use_mock_arm'),
+            LaunchConfiguration('initial_controller_arm'),
             LaunchConfiguration('robot_ip'),
             LaunchConfiguration('controllers_file')
             ])
@@ -390,6 +397,7 @@ def generate_launch_description():
         declare_ur_pwr_variant_cmd,
         declare_robotiq_cmd,
         declare_mock_arm_cmd,
+        declare_initial_controller_arm_cmd,
         declare_robot_ip_cmd,
         declare_controllers_file_cmd,
         opq_function
