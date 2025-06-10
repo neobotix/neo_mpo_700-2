@@ -1,4 +1,4 @@
-# Copyright 2019 Open Source Robotics Foundation, Inc.
+# Copyright 2025 Neobotix GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author: Darby Lim
+# Authors: Pradheep Padmanabhan, Adarsh Karan K P
+# Co-Author: Darby Lim
 
 import os
 
