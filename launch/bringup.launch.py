@@ -193,7 +193,7 @@ def execution_stage(context: LaunchContext,
         arm_typ == "ur10e"):
 
         # Mock hardware supports only `joint_trajectory_controller`
-        if use_mock == 'True':
+        if use_mock.lower() == 'true':
             initial_controller_arm_name = "joint_trajectory_controller"
 
         ur_arm = IncludeLaunchDescription(
