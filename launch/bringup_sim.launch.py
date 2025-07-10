@@ -12,6 +12,7 @@ from launch.actions import (
     )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 import os
 
 def execution_stage(context: LaunchContext,
@@ -51,6 +52,29 @@ def execution_stage(context: LaunchContext,
 
     # Add the launch command to the launch actions
     launch_actions.append(bringup_sim_launch_cmd)
+
+    # Relaying lidar data to /scan topic
+    relay_topic_lidar1 = Node(
+            package='topic_tools',
+            executable = 'relay',
+            name='relay',
+            namespace =  robot_namespace,
+            output='screen',
+            parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_1/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
+        )
+
+    launch_actions.append(relay_topic_lidar1)
+
+    relay_topic_lidar2 = Node(
+            package='topic_tools',
+            executable = 'relay',
+            name='relay',
+            namespace =  robot_namespace,
+            output='screen',
+            parameters=[{'input_topic': robot_namespace.perform(context) + "lidar_2/scan_filtered",'output_topic': robot_namespace.perform(context) + "scan"}],
+        )
+
+    launch_actions.append(relay_topic_lidar2)
 
     return launch_actions
 
