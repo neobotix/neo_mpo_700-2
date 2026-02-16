@@ -63,7 +63,7 @@ Contributor: Adarsh Karan K P
       caster_joint_type="${ODM_joint_type}"
       link_origin_rpy="0 0 ${3.14 * angle_comp}"
       >
-      <origin rpy="0 0 0" xyz="0.24 0.18 0.22"/>
+      <origin rpy="0 0 0" xyz="0.25 0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
 
     <xacro:mpo_700_caster_wheel 
@@ -72,7 +72,7 @@ Contributor: Adarsh Karan K P
       caster_joint_type="${ODM_joint_type}"
       link_origin_rpy="0 0 3.14"
       >
-      <origin rpy="0 0 0" xyz="0.24 -0.18 0.22"/>
+      <origin rpy="0 0 0" xyz="0.25 -0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
 
     <xacro:mpo_700_caster_wheel 
@@ -81,7 +81,7 @@ Contributor: Adarsh Karan K P
       caster_joint_type="${ODM_joint_type}"
       link_origin_rpy="0 0 ${3.14 * angle_comp}"
       >
-      <origin rpy="0 0 0" xyz="-0.24 0.18 0.22"/>
+      <origin rpy="0 0 0" xyz="-0.25 0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
 
     <xacro:mpo_700_caster_wheel 
@@ -90,7 +90,7 @@ Contributor: Adarsh Karan K P
       caster_joint_type="${ODM_joint_type}"
       link_origin_rpy="0 0 3.14"
       >
-      <origin rpy="0 0 0" xyz="-0.24 -0.18 0.22"/>
+      <origin rpy="0 0 0" xyz="-0.25 -0.18 0.22"/>
     </xacro:mpo_700_caster_wheel>
 
     <!-- Wheels -->
