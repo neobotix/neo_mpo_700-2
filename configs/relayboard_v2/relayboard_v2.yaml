@@ -33,7 +33,7 @@
           serial_number: neobattery1
           location: slot1
           design_capacity: 100.0
-          chemistry: 1
+          chemistry: 4
 
 
         #################################################
