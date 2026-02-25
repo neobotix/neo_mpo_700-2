@@ -3,7 +3,7 @@
     num_wheels: 4
     control_rate: 100.0
     request_status_divider: 10
-    heartbeat_divider: 5
+    heartbeat_divider: 10
     steer_gain: 10.0
     steer_lookahead: 0.06
     steer_low_pass: 0.5
