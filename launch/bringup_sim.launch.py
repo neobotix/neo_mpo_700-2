@@ -94,7 +94,7 @@ def generate_launch_description():
 
     declare_arm_type_cmd = DeclareLaunchArgument(
             'arm_type', default_value='',
-            choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66', 'cs66'],
+            choices=['', 'ur5', 'ur10', 'ur5e', 'ur10e', 'ec66'],
             description='Arm Types\n\t'
         )
 
