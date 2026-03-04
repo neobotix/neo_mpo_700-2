@@ -152,7 +152,7 @@ Contributor: Adarsh Karan K P
     </xacro:if>
 
     <!-- Elite Arms-->
-    <xacro:if value="${arm == 'ec66' or arm == 'cs66'}">
+    <xacro:if value="${arm == 'ec66'}">
       <xacro:property name="arm_height" value="0.376" />
       <xacro:include filename="$(find mp_components)/urdf/arm/elite_arm.urdf.xacro"/>
     </xacro:if>
