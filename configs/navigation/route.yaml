@@ -1,0 +1,10 @@
+# Route configuration for neo_route node
+neo_route_node:
+  ros__parameters:
+
+    # Set the initial pose manually in RViz before starting route following.
+
+    # List of node IDs to navigate through. No motion starts until ~/start is called.
+    # node_ids are loaded when neo_route_node starts; restart it to load changes.
+    # ~/resume continues the saved sequence and progress from the last start.
+    node_ids: [6, 0, 3, 7, 11, 12, 6]
